@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>Solva – เข้าสู่ระบบ</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&amp;family=Noto+Sans+Thai:wght@400;500;600&amp;family=Satisfy&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font:16px/1.5 'Figtree','Noto Sans Thai',sans-serif;color:#1A1A22;background:#F7F7F7}
+*{box-sizing:border-box}button,input{font-family:inherit}
+.pg{position:relative;min-height:100vh;overflow:hidden}
+.arch{position:absolute;left:50%;top:15%;width:max(150vw,1000px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:linear-gradient(180deg,#FFDFFF 0%,#F8E6F8 40%,#F7F7F7 75%);animation:fi 1s ease-out}
+.bb{position:absolute;border-radius:50%;filter:blur(46px);background:#FF9AFF;opacity:.35;animation:db 11s ease-in-out infinite alternate}
+.b1{width:260px;height:260px;left:8%;top:26%}.b2{width:200px;height:200px;right:6%;top:46%;animation-delay:-4s;opacity:.28}
+@keyframes db{to{transform:translate(60px,-40px) scale(1.2)}}@keyframes fi{from{opacity:0}}
+.sp{position:absolute;z-index:1;width:22px;height:22px;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{transform:scale(.3);opacity:.3}}
+.col{position:relative;z-index:2;width:100%;max-width:440px;margin:0 auto;min-height:100vh;padding:0 24px 40px;display:flex;flex-direction:column}
+.lg{margin-top:clamp(120px,24vh,260px);text-align:center;animation:rs .9s cubic-bezier(.2,.8,.2,1) backwards}
+.col.f .lg{margin-top:clamp(48px,9vh,100px)}
+.lg h1{font:400 clamp(64px,16vw,84px)/1.05 Satisfy,cursive;margin:0}.col.f .lg h1{font-size:clamp(52px,12vw,64px)}
+.lg p{margin:10px 0 0;font-size:20px;line-height:1.35}.col.f .lg p{font-size:16px}
+@keyframes rs{from{opacity:0;transform:translateY(20px)}}
+.pn{margin-top:auto;padding-top:28px;animation:rs .9s .15s cubic-bezier(.2,.8,.2,1) backwards}
+.col.f .pn{margin-top:24px}
+.tp{animation:tpin .45s ease-out}@keyframes tpin{from{opacity:0;transform:translateY(14px)}}
+.ttl{font-size:22px;font-weight:600;margin:0 0 2px;text-align:center}.sub{text-align:center;margin:0 0 6px;color:#4A4C5A}
+.lb{display:block;margin:14px 0 6px 10px;font-size:14px;color:#4A4C5A}
+.in{display:block;width:100%;height:54px;border:2px solid transparent;border-radius:27px;padding:0 22px;font-size:16px;background:#fff;color:#1A1A22;transition:border-color .2s,box-shadow .2s}
+.in:focus{outline:none;border-color:#FF9AFF;box-shadow:0 0 0 5px rgba(255,154,255,.35)}.in.bad{border-color:#B3261E}
+.pw{position:relative}.pw .in{padding-right:56px}
+.ey{position:absolute;right:6px;top:5px;width:44px;height:44px;border:0;border-radius:50%;background:none;cursor:pointer;display:grid;place-items:center;color:#4A4C5A;transition:background .2s}.ey:hover{background:#FFDFFF}
+.pb{display:grid;place-items:center;width:100%;min-height:56px;border-radius:28px;border:3px solid #fff;background:#fff;color:#1A1A22;font-size:19px;cursor:pointer;text-decoration:none;transition:transform .15s,filter .2s,background .2s;margin-top:14px}
+.pb:hover{filter:brightness(.97);transform:translateY(-2px)}.pb:active{transform:scale(.98)}
+.pb.o{background:transparent}.pb.o:hover{background:rgba(255,255,255,.55)}
+.pb.go{background:#FF9AFF;border-color:#FF9AFF;font-weight:600;font-size:17px}.pb.go:hover{filter:brightness(.95)}
+.pb[disabled]{opacity:.7;cursor:wait;transform:none}.pb[disabled]:before{content:"";display:inline-block;width:14px;height:14px;border:2px solid #1A1A22;border-top-color:transparent;border-radius:50%;margin-right:10px;animation:sn .8s linear infinite}
+@keyframes sn{to{transform:rotate(360deg)}}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px}
+.ck{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;font-size:15px}.ck input{width:22px;height:22px;accent-color:#FF6FFF;cursor:pointer}
+.lk{border:0;background:none;color:#1A1A22;text-decoration:underline;text-underline-offset:3px;font-size:15px;min-height:44px;padding:0 6px;cursor:pointer}.lk:hover{color:#9A2A8B}
+.lk:focus-visible,.pb:focus-visible,.ey:focus-visible{outline:3px solid #1A1A22;outline-offset:2px}
+.msg{border-radius:18px;padding:12px 16px;margin-top:14px;font-size:15px;background:#fff}
+.msg.e{color:#B3261E;border:1.5px solid #F2B8B5;animation:shk .4s}.msg.s{color:#1F7A4D;border:1.5px solid #BFE5CF}
+@keyframes shk{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.dm{margin:18px auto 0;text-align:center;font-size:13px;color:#4A4C5A}.dm b{display:inline-block;background:#fff;border-radius:12px;padding:1px 10px;margin-right:6px;font-weight:600}
+.hid{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.ok{text-align:center;padding:10px 0}.ok svg{margin:0 auto 6px;display:block}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div class="pg">
+<div class="arch"></div><span class="bb b1"></span><span class="bb b2"></span>
+<svg class="sp" style="left:18%;top:20%" viewBox="-14 -14 28 28" aria-hidden="true"><path d="M0-12L3-3L12 0L3 3L0 12L-3 3L-12 0L-3-3Z" fill="#fff"></path></svg>
+<svg class="sp" style="right:16%;top:30%;animation-delay:1s" viewBox="-14 -14 28 28" aria-hidden="true"><path d="M0-12L3-3L12 0L3 3L0 12L-3 3L-12 0L-3-3Z" fill="#fff"></path></svg>
+<div class="col {{cc}}">
+<div class="lg"><h1>Solva</h1><p>Your all-in-one<br>beauty business manager.</p></div>
+<div class="pn">
+
+<sc-if value="{{vWelcome}}" hint-placeholder-val="{{true}}"><div class="tp">
+<button class="pb" onClick="{{goSignin}}">เข้าสู่ระบบ</button>
+<button class="pb o" onClick="{{goSignup}}">สมัครสมาชิก</button>
+</div></sc-if>
+
+<sc-if value="{{vSignin}}" hint-placeholder-val="{{false}}"><form class="tp" onSubmit="{{doSignin}}" novalidate="">
+<h2 class="ttl">ยินดีต้อนรับกลับมา</h2><p class="sub">เข้าสู่ระบบเพื่อจัดการร้านของคุณ</p>
+<sc-if value="{{hasOk}}"><div class="msg s" role="status">{{ok}}</div></sc-if>
+<sc-if value="{{hasErr}}"><div class="msg e" role="alert">{{err}}</div></sc-if>
+<label class="lb" for="id">อีเมลหรือชื่อผู้ใช้</label>
+<input id="id" class="in {{cId}}" type="text" autocomplete="username" placeholder="owner@solva.demo" value="{{id}}" onInput="{{onId}}">
+<label class="lb" for="pw">รหัสผ่าน</label>
+<div class="pw"><input id="pw" class="in {{cPw}}" type="{{pwType}}" autocomplete="current-password" placeholder="••••••••" value="{{pw}}" onInput="{{onPw}}"><button type="button" class="ey" aria-label="{{eyeLabel}}" onClick="{{toggleEye}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle><path d="{{slash}}"></path></svg></button></div>
+<div class="row"><label class="ck"><input type="checkbox" checked="{{rem}}" onChange="{{onRem}}">จดจำฉันไว้</label><button type="button" class="lk" onClick="{{goForgot}}">ลืมรหัสผ่าน?</button></div>
+<button type="submit" class="hid" tabindex="-1" aria-hidden="true">ส่ง</button><a class="pb go" href="Main.dc.html" onClick="{{tryGo}}">{{btnTxt}}</a>
+<div class="row" style="justify-content:center;margin-top:4px"><span>ยังไม่มีบัญชี?</span><button type="button" class="lk" onClick="{{goSignup}}">สมัครสมาชิก</button></div>
+</form></sc-if>
+
+<sc-if value="{{vSignup}}" hint-placeholder-val="{{false}}"><form class="tp" onSubmit="{{doSignup}}" novalidate="">
+<h2 class="ttl">สร้างบัญชีร้านของคุณ</h2><p class="sub">ใช้เวลาไม่ถึงหนึ่งนาที</p>
+<sc-if value="{{hasErr}}"><div class="msg e" role="alert">{{err}}</div></sc-if>
+<label class="lb" for="n">ชื่อ-นามสกุล</label>
+<input id="n" class="in {{cN}}" type="text" autocomplete="name" value="{{n}}" onInput="{{onN}}">
+<label class="lb" for="e2">อีเมล</label>
+<input id="e2" class="in {{cE2}}" type="email" autocomplete="email" placeholder="you@example.com" value="{{e2}}" onInput="{{onE2}}">
+<label class="lb" for="p2">รหัสผ่าน (อย่างน้อย 8 ตัว มีตัวอักษรและตัวเลข)</label>
+<input id="p2" class="in {{cP2}}" type="password" autocomplete="new-password" value="{{p2}}" onInput="{{onP2}}">
+<label class="lb" for="p3">ยืนยันรหัสผ่าน</label>
+<input id="p3" class="in {{cP3}}" type="password" autocomplete="new-password" value="{{p3}}" onInput="{{onP3}}">
+<button type="submit" class="pb go" disabled="{{busy}}">{{btnTxt}}</button>
+<div class="row" style="justify-content:center;margin-top:4px"><span>มีบัญชีแล้ว?</span><button type="button" class="lk" onClick="{{goSignin}}">เข้าสู่ระบบ</button></div>
+</form></sc-if>
+
+<sc-if value="{{vForgot}}" hint-placeholder-val="{{false}}"><form class="tp" onSubmit="{{doForgot}}" novalidate="">
+<h2 class="ttl">ลืมรหัสผ่าน</h2><p class="sub">กรอกอีเมลที่ใช้สมัคร เพื่อรับลิงก์ตั้งรหัสผ่านใหม่</p>
+<sc-if value="{{hasOk}}"><div class="msg s" role="status">{{ok}}</div></sc-if>
+<sc-if value="{{hasErr}}"><div class="msg e" role="alert">{{err}}</div></sc-if>
+<label class="lb" for="e3">อีเมล</label>
+<input id="e3" class="in {{cId}}" type="email" autocomplete="email" placeholder="you@example.com" value="{{id}}" onInput="{{onId}}">
+<button type="submit" class="pb go" disabled="{{busy}}">{{btnTxt}}</button>
+<div class="row" style="justify-content:center;margin-top:4px"><button type="button" class="lk" onClick="{{goSignin}}">‹ กลับไปเข้าสู่ระบบ</button></div>
+</form></sc-if>
+
+<sc-if value="{{vDone}}" hint-placeholder-val="{{false}}"><div class="tp ok">
+<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#fff"></circle><path d="M19 33l9 9 17-19" fill="none" stroke="#FF6FFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<h2 class="ttl">เข้าสู่ระบบสำเร็จ</h2><p class="sub">สวัสดี {{who}} · กำลังพาไปหน้า Dashboard…</p>
+<a id="go" class="pb go" href="Main.dc.html">ไปที่ Dashboard ทันที</a>
+</div></sc-if>
+
+<div class="dm"><b>โหมดเดโม</b>ยังไม่ได้เชื่อมระบบบัญชีจริง · กรอกบัญชีทดลองให้แล้ว กดเข้าสู่ระบบได้เลย</div>
+</div></div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic{
+componentDidMount(){try{const s=localStorage.getItem('solva_id');if(s)this.setState({id:s,rem:true})}catch(e){}}
+renderVals(){
+const S=Object.assign({v:'welcome',id:'',pw:'',show:false,rem:false,err:'',ef:'',ok:'',busy:false,n:'',e2:'',p2:'',p3:'',who:''},this.state),set=o=>this.setState(o);
+this.acc=this.acc||{'owner@solva.demo':{pw:'solva1234',name:'เจ้าของร้าน'},'manager':{pw:'solva1234',name:'ผู้จัดการร้าน'}};
+const go=v=>()=>set({v:v,err:'',ef:'',ok:'',pw:'',show:false});
+const EM=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,UN=/^[A-Za-z0-9._-]{3,}$/;
+const bad=(f,m)=>set({err:m,ef:f,ok:'',busy:false});
+const wait=(fn)=>{set({busy:true,err:'',ef:'',ok:''});setTimeout(fn,800)};
+const doSignin=e=>{e&&e.preventDefault&&e.preventDefault();if(S.busy)return;const id=S.id.trim();
+if(!id)return bad('id','กรุณากรอกอีเมลหรือชื่อผู้ใช้');
+if(id.includes('@')?!EM.test(id):!UN.test(id))return bad('id','รูปแบบอีเมลหรือชื่อผู้ใช้ไม่ถูกต้อง (ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัว)');
+if(!S.pw)return bad('pw','กรุณากรอกรหัสผ่าน');
+if(S.pw.length<6)return bad('pw','รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร');
+wait(()=>{const a=this.acc[id.toLowerCase()];
+if(!a||a.pw!==S.pw)return set({busy:false,err:'อีเมล/ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง',ef:'pw',pw:''});
+try{if(S.rem)localStorage.setItem('solva_id',id);else localStorage.removeItem('solva_id')}catch(x){}
+set({busy:false,v:'done',who:a.name,pw:'',err:''});setTimeout(()=>{const l=document.getElementById('go');if(l)l.click()},700)})};
+const check=()=>{const id=S.id.trim();
+if(!id)return{f:'id',m:'กรุณากรอกอีเมลหรือชื่อผู้ใช้'};
+if(id.includes('@')?!EM.test(id):!UN.test(id))return{f:'id',m:'รูปแบบอีเมลหรือชื่อผู้ใช้ไม่ถูกต้อง (ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัว)'};
+if(!S.pw)return{f:'pw',m:'กรุณากรอกรหัสผ่าน'};
+if(S.pw.length<6)return{f:'pw',m:'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'};
+const a=this.acc[id.toLowerCase()];
+if(!a||a.pw!==S.pw)return{f:'pw',m:'อีเมล/ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง',clr:1};
+return{a:a,id:id}};
+const tryGo=e=>{if(S.busy){e&&e.preventDefault&&e.preventDefault();return}const r=check();
+if(!r.a){e&&e.preventDefault&&e.preventDefault();set(Object.assign({err:r.m,ef:r.f,ok:''},r.clr?{pw:''}:{}));return}
+try{if(S.rem)localStorage.setItem('solva_id',r.id);else localStorage.removeItem('solva_id')}catch(x){}
+set({v:'done',who:r.a.name,pw:'',err:'',ef:''})};
+const doSignup=e=>{e&&e.preventDefault&&e.preventDefault();if(S.busy)return;const em=S.e2.trim().toLowerCase();
+if(S.n.trim().length<2)return bad('n','กรุณากรอกชื่อ-นามสกุล');
+if(!EM.test(em))return bad('e2','รูปแบบอีเมลไม่ถูกต้อง');
+if(S.p2.length<8||!/[A-Za-z]/.test(S.p2)||!/\d/.test(S.p2))return bad('p2','รหัสผ่านต้องมีอย่างน้อย 8 ตัว และมีทั้งตัวอักษรและตัวเลข');
+if(S.p3!==S.p2)return bad('p3','รหัสผ่านที่ยืนยันไม่ตรงกัน');
+if(this.acc[em])return bad('e2','อีเมลนี้ถูกใช้สมัครแล้ว');
+wait(()=>{this.acc[em]={pw:S.p2,name:S.n.trim()};set({busy:false,v:'signin',id:em,pw:'',p2:'',p3:'',ok:'สมัครสมาชิกเรียบร้อย กรุณาเข้าสู่ระบบ (บัญชีนี้อยู่ในเดโมจนกว่าจะปิดหน้านี้)'})})};
+const doForgot=e=>{e&&e.preventDefault&&e.preventDefault();if(S.busy)return;const em=S.id.trim();
+if(!em)return bad('id','กรุณากรอกอีเมล');if(!EM.test(em))return bad('id','รูปแบบอีเมลไม่ถูกต้อง');
+wait(()=>set({busy:false,ok:'รับคำขอสำหรับ '+em+' แล้ว (เดโม: ยังไม่มีการส่งอีเมลจริง)'}))};
+const f=S.v!=='welcome';
+return{cc:f?'f':'',vWelcome:S.v==='welcome',vSignin:S.v==='signin',vSignup:S.v==='signup',vForgot:S.v==='forgot',vDone:S.v==='done',
+tryGo,goSignin:()=>set({v:'signin',err:'',ef:'',ok:'',show:false,id:S.id||'owner@solva.demo',pw:'solva1234'}),goSignup:go('signup'),goForgot:go('forgot'),doSignin,doSignup,doForgot,
+id:S.id,pw:S.pw,n:S.n,e2:S.e2,p2:S.p2,p3:S.p3,onId:e=>set({id:e.target.value}),onPw:e=>set({pw:e.target.value}),onN:e=>set({n:e.target.value}),onE2:e=>set({e2:e.target.value}),onP2:e=>set({p2:e.target.value}),onP3:e=>set({p3:e.target.value}),
+rem:S.rem,onRem:e=>set({rem:!!e.target.checked}),pwType:S.show?'text':'password',eyeLabel:S.show?'ซ่อนรหัสผ่าน':'แสดงรหัสผ่าน',toggleEye:()=>set({show:!S.show}),slash:S.show?'M3 3l18 18':'M0 0',
+err:S.err,hasErr:!!S.err,ok:S.ok,hasOk:!!S.ok,busy:S.busy,who:S.who,
+cId:S.ef==='id'?'bad':'',cPw:S.ef==='pw'?'bad':'',cN:S.ef==='n'?'bad':'',cE2:S.ef==='e2'?'bad':'',cP2:S.ef==='p2'?'bad':'',cP3:S.ef==='p3'?'bad':'',
+btnTxt:S.busy?(S.v==='signup'?'กำลังสร้างบัญชี…':S.v==='forgot'?'กำลังส่ง…':'กำลังตรวจสอบ…'):(S.v==='signup'?'สมัครสมาชิก':S.v==='forgot'?'ส่งลิงก์รีเซ็ต':'เข้าสู่ระบบ')}}}
+</script>
+</body>
+</html>
