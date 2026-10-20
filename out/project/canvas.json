@@ -1,0 +1,99 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Clients.dc.html": {
+      "expand": "fill",
+      "h": 1450,
+      "title": "ลูกค้า",
+      "w": 1280,
+      "x": 2720,
+      "y": 0,
+      "is_interactive": true
+    },
+    "Finance.dc.html": {
+      "expand": "fill",
+      "h": 1550,
+      "is_interactive": true,
+      "title": "การเงิน",
+      "w": 1280,
+      "x": 1360,
+      "y": 1700
+    },
+    "Inventory.dc.html": {
+      "expand": "fill",
+      "h": 1250,
+      "is_interactive": true,
+      "title": "สต็อก",
+      "w": 1280,
+      "x": 2720,
+      "y": 1700
+    },
+    "Login.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "เข้าสู่ระบบ",
+      "w": 1280,
+      "x": -1437,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 1300,
+      "is_interactive": true,
+      "title": "ภาพรวม",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "Schedule.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "ตารางนัด",
+      "w": 1280,
+      "x": 1360,
+      "y": 0
+    },
+    "Staff.dc.html": {
+      "expand": "fill",
+      "h": 1150,
+      "title": "พนักงาน",
+      "w": 1280,
+      "x": 0,
+      "y": 1700,
+      "is_interactive": true
+    },
+    "Services.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "is_interactive": true,
+      "title": "บริการ",
+      "w": 1280,
+      "x": 4080,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-14T00:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {},
+  "order": [
+    "Main.dc.html",
+    "Schedule.dc.html",
+    "Clients.dc.html",
+    "Staff.dc.html",
+    "Services.dc.html",
+    "Finance.dc.html",
+    "Inventory.dc.html",
+    "Login.dc.html"
+  ],
+  "pages": [],
+  "title": "Solva – ระบบจัดการร้านทำเล็บ"
+}
