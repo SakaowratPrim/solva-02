@@ -10,7 +10,7 @@ body = ('<div class="app">' + nav('Services') + '<main class="mn">' + header() +
  '<select class="sel2" value="{{cat}}" onChange="{{onCat}}" aria-label="กรองหมวดหมู่"><sc-for list="{{catOpts}}" as="o"><option value="{{o.v}}">{{o.t}}</option></sc-for></select>'
  '</div>'
  '<div class="c rt" style="overflow-x:auto"><table><tr><th>บริการ</th><th>หมวด</th><th>ราคา</th><th>เวลา</th><th>ใช้ในนัดหมาย</th></tr>'
- '<sc-for list="{{rows}}" as="r" hint-placeholder-count="3"><tr><td><button class="nb2" onClick="{{r.pick}}">{{r.name}}</button></td><td>{{r.cat}}</td><td><b>{{r.price}}</b></td><td>{{r.dur}}</td><td>{{r.used}}</td></tr></sc-for></table>'
+ '<sc-for list="{{rows}}" as="r" hint-placeholder-count="3"><tr><td data-label="บริการ"><button class="nb2" onClick="{{r.pick}}">{{r.name}}</button></td><td data-label="หมวด">{{r.cat}}</td><td data-label="ราคา"><b>{{r.price}}</b></td><td data-label="เวลา">{{r.dur}}</td><td data-label="ใช้ในนัดหมาย">{{r.used}}</td></tr></sc-for></table>'
  '<sc-if value="{{noRows}}"><div class="em"><div>ไม่พบบริการที่ตรงกับตัวกรอง</div></div></sc-if></div></sc-if>'
  '<sc-if value="{{noAny}}" hint-placeholder-val="{{false}}"><div class="empty">' + HEART +
  '<h2>ยังไม่มีบริการ</h2><p>เพิ่มบริการที่ร้านให้ เช่น ทาสีเจล ต่อเล็บ พร้อมราคาและเวลาที่ใช้ เพื่อนำไปสร้างนัดหมายและบิลได้</p>'

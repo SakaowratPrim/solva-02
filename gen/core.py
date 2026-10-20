@@ -15,6 +15,57 @@ def hero_svg(f):
 FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;family=Satisfy&amp;display=swap" rel="stylesheet">'
 
 # ---------- CSS added on top of each page's original CSS (no .mb here: it clashes) ----------
+
+RESP = r"""
+.hero>svg{flex:none;max-width:42%;height:auto}.dn svg{width:100%;height:auto}
+@media(min-width:1700px){.app{max-width:1760px;margin:0 auto}}
+@media(max-width:1100px){.mn{padding:24px 22px 120px 16px}.sb{margin-left:16px}.hero{padding:28px 32px}.hl{font-size:36px}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}}
+@media(max-width:820px){
+.mn{padding:16px 16px calc(104px + env(safe-area-inset-bottom))}
+.sb{bottom:calc(10px + env(safe-area-inset-bottom));left:10px;right:10px;border-radius:32px;height:64px;padding:4px 6px;align-items:center;gap:0}
+.sb a{width:auto;flex:1;min-width:0;font-size:10px;padding:6px 0;gap:1px;border-radius:24px}.sb a svg{width:22px;height:22px}
+.hd{margin-bottom:16px;gap:10px}.hd .hi0{font-size:20px}
+.hero{flex-direction:row;align-items:center;gap:12px;padding:22px 20px;min-height:0;border-radius:28px;margin-bottom:18px}
+.hero>svg{width:130px;max-width:38%;margin-right:-6px}.hero .tx{min-width:0;flex:1}
+.hl{font-size:28px}.hs{font-size:14px;margin-bottom:14px}
+.g{grid-template-columns:repeat(2,1fr);gap:12px}.g .c{padding:16px}.k{font-size:30px}.kl{font-size:14px}
+.g2{grid-template-columns:1fr;gap:16px}.c{padding:18px;border-radius:24px}h1{font-size:20px}
+.row{gap:10px}.row .bt{flex:1 1 140px}.si{max-width:none;min-width:0;flex:1 1 100%}
+.hr:has(input){width:100%}.hr input{flex:1;width:auto;min-width:0}
+.stp{width:100%;justify-content:space-between}.stp b{min-width:0;flex:1}
+.dn{width:260px}.dn .big{font-size:34px}
+.fab{right:14px;bottom:calc(88px + env(safe-area-inset-bottom));width:56px;height:56px}
+.mb{height:200px;gap:8px}
+.tk{overflow:hidden}.ov{padding:16px 12px}.md{padding:20px 18px;border-radius:24px}
+.to{max-width:calc(100vw - 24px)}
+.ff input,.ff select,.ff textarea,.si,.hr input,.sel2{font-size:16px}
+}
+@media(min-width:700px) and (max-width:820px){.g2{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){
+.hero{padding:20px 18px}.hero>svg{width:104px}.hl{font-size:24px}
+.lgd{flex-wrap:wrap;gap:8px 14px}.tl{grid-template-columns:1fr 1fr}
+.cal{gap:6px 0}.cal a.dy{width:36px;height:36px}.cal a.dy.f{width:40px;height:48px}
+.wk{padding:10px 4px;gap:0}.wk button,.wk button.sl{min-width:0;flex:1;padding:8px 0}.wk button.sl{padding:12px 0 14px}.wk b{width:36px;height:36px}
+.c.rt table,.c.rt tbody,.c.rt tr,.c.rt td{display:block;width:100%}
+.c.rt tr:first-child{display:none}
+.c.rt tr{padding:10px 0;border-top:1px solid #F0EEF1}.c.rt tr:hover td{background:none}
+.c.rt td{border:0;padding:3px 0;display:flex;justify-content:space-between;align-items:center;gap:14px;text-align:right}
+.c.rt td:before{content:attr(data-label);color:#6B6D7A;font-size:13px;text-align:left;flex:none}
+.c.rt td:first-child{font-weight:600;font-size:16px}.c.rt td:first-child:before{display:none}
+.bt{padding:0 18px}.hero .bt{min-height:44px}
+.sx .r.h{display:none}.sx .r{grid-template-columns:1fr 1fr;min-width:0;gap:4px 12px;padding:12px 14px;font-size:14px}
+.sx .r .ph{grid-column:1;font-size:16px;font-weight:600}.sx .r .bdg{grid-column:2;grid-row:1;justify-self:end}
+.sx .r>div[data-label]:before{content:attr(data-label) ': ';color:#6B6D7A;font-size:13px}
+.sg2{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:56px 12px;margin-top:56px}.pf{margin-top:56px;padding-top:54px}.pf .pa{top:-48px;width:96px;height:96px}.pf .pa div{width:76px;height:76px}.pf .ch.nb{padding:6px 14px!important}
+.trw{display:grid!important;grid-template-columns:repeat(2,1fr);gap:12px!important}.trw .tc{width:auto;min-width:0;height:108px}.trw .tc .tn{font-size:18px}.trw .tc em{right:8px;bottom:8px;padding:4px 14px}.trw .tc:hover{transform:translateY(-3px)}
+}
+@media(max-width:380px){
+.mn{padding:14px 12px calc(100px + env(safe-area-inset-bottom))}
+.hero>svg{width:84px}.hl{font-size:22px}.hs{font-size:13px}
+.k{font-size:26px}.g{gap:10px}.g .c,.c{padding:14px}.sb a{font-size:9px}.sb{left:6px;right:6px}
+.dn{width:230px}.tl b{font-size:19px}
+}
+"""
 CAPMENU = '<div class="mm3"><button class="mm3b" aria-label="ตัวเลือกเพิ่มเติม" aria-haspopup="menu" onClick="{{toggleMenu}}">···</button><sc-if value="{{menuOpen}}"><div class="mov" onClick="{{toggleMenu}}"></div><div class="mpop" role="menu"><button role="menuitem" onClick="{{openCap}}">ตั้งค่าจำนวนคิวสูงสุด</button></div></sc-if></div>'
 EXTRA_CSS = r"""
 .mm3{position:relative;display:inline-block}.mm3b{width:44px;height:44px;border:0;border-radius:50%;background:#F3F3F3;font:inherit;font-size:22px;font-weight:700;letter-spacing:1px;cursor:pointer;color:#4A4C5A;transition:.2s}.mm3b:hover{background:#FFDFFF}.mov{position:fixed;inset:0;z-index:40}.mpop{position:absolute;right:0;top:50px;z-index:41;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:6px;min-width:210px}.mpop button{display:block;width:100%;min-height:44px;border:0;background:none;text-align:left;padding:0 14px;border-radius:10px;font:inherit;cursor:pointer}.mpop button:hover{background:#FFDFFF}
@@ -156,7 +207,7 @@ function saveShop(self){const F=self.state.form;M(d=>{d.shop.name=(F.name||'').t
 
 def page(title, css, body, js, extra_head=''):
     return ('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>' + title + '</title><script src="./support.js"></script></head><body><x-dc><helmet>'
-            + FONT_LINK + '<style>' + css + EXTRA_CSS + '</style></helmet>' + body + '</x-dc>'
+            + FONT_LINK + '<style>' + css + EXTRA_CSS + RESP + '</style></helmet>' + body + '</x-dc>'
             '<script type="text/x-dc" data-dc-script data-props=\'{"$preview":{"width":1280,"height":900}}\'>' + CORE_JS + js + '</script></body></html>')
 
 def write(name, html):
