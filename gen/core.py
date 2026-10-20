@@ -206,7 +206,7 @@ function saveShop(self){const F=self.state.form;M(d=>{d.shop.name=(F.name||'').t
 """
 
 def page(title, css, body, js, extra_head=''):
-    return ('<!doctype html><html lang="th"><head><meta charset="utf-8"><title>' + title + '</title><script src="./support.js"></script></head><body><x-dc><helmet>'
+    return ('<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>' + title + '</title><script src="./support.js"></script></head><body><x-dc><helmet>'
             + FONT_LINK + '<style>' + css + EXTRA_CSS + RESP + '</style></helmet>' + body + '</x-dc>'
             '<script type="text/x-dc" data-dc-script data-props=\'{"$preview":{"width":1280,"height":900}}\'>' + CORE_JS + js + '</script></body></html>')
 
