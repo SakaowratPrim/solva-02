@@ -7,7 +7,7 @@ PERSON = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="cu
 body = ('<div class="app">' + nav('Staff') + '<main class="mn">' + header() +
  hero(hero_svg('Staff.dc.html'),
       'ทีมของเรา <b class="cn" style="--v:{{nAll}}"></b> คน', '{{heroSub}}',
-      '<button class="bt" onClick="{{add}}">{{heroBtn}}</button>') + WARN +
+      '<button class="bt" data-tour="staff" onClick="{{add}}">{{heroBtn}}</button>') + WARN +
  '<sc-if value="{{noAny}}" hint-placeholder-val="{{false}}"><div class="empty">' + HEART +
  '<h2>ยังไม่มีพนักงาน</h2><p>เพิ่มพนักงานเพื่อรับนัดหมาย บันทึกเวลาเข้างาน และคำนวณค่าคอมมิชชันและทิปจากงานที่ทำจริง</p></div></sc-if>'
  '<sc-if value="{{hasAny}}" hint-placeholder-val="{{true}}"><div id="list" class="row"><input class="si" placeholder="ค้นหาชื่อพนักงาน" aria-label="ค้นหาพนักงาน" value="{{q}}" onInput="{{onQ}}">'

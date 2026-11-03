@@ -5,7 +5,7 @@ body = ('<div class="app">' + nav('Services') + '<main class="mn">' + header() +
  hero(hero_svg('Main.dc.html'),
       'บริการทั้งหมด <b class="cn" style="--v:{{nSv}}"></b> รายการ', '{{heroSub}}',
       '<button class="bt" onClick="{{add}}">{{heroBtn}}</button>') + WARN +
- '<h1>บริการและราคา</h1><div class="row"><button class="bt o" onClick="{{hoursOpen}}">เวลาทำการ: {{hoursTxt}} · แก้ไข</button></div>'
+ '<h1>บริการและราคา</h1><div class="row"><button class="bt o" data-tour="hours" onClick="{{hoursOpen}}">เวลาทำการ: {{hoursTxt}} · แก้ไข</button></div>'
  '<sc-if value="{{hasAny}}" hint-placeholder-val="{{true}}"><div class="row"><input class="si" placeholder="ค้นหาบริการ" aria-label="ค้นหาบริการ" value="{{q}}" onInput="{{onQ}}">'
  '<select class="sel2" value="{{cat}}" onChange="{{onCat}}" aria-label="กรองหมวดหมู่"><sc-for list="{{catOpts}}" as="o"><option value="{{o.v}}">{{o.t}}</option></sc-for></select>'
  '</div>'

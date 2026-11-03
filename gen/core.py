@@ -68,8 +68,13 @@ RESP = r"""
 }
 """
 LOGO = open(__file__.rsplit('/',1)[0]+'/logo_uri.txt').read().strip()
-CAPMENU = '<div class="mm3"><button class="mm3b" aria-label="ตัวเลือกเพิ่มเติม" aria-haspopup="menu" onClick="{{toggleMenu}}">···</button><sc-if value="{{menuOpen}}"><div class="mov" onClick="{{toggleMenu}}"></div><div class="mpop" role="menu"><button role="menuitem" onClick="{{openCap}}">ตั้งค่าจำนวนคิวสูงสุด</button></div></sc-if></div>'
+CAPMENU = '<div class="mm3"><button class="mm3b" aria-label="ตัวเลือกเพิ่มเติม" aria-haspopup="menu" data-tour="cap" onClick="{{toggleMenu}}">···</button><sc-if value="{{menuOpen}}"><div class="mov" onClick="{{toggleMenu}}"></div><div class="mpop" role="menu"><button role="menuitem" onClick="{{openCap}}">ตั้งค่าจำนวนคิวสูงสุด</button></div></sc-if></div>'
 EXTRA_CSS = r"""
+#tour-root{position:fixed;inset:0;z-index:60}.tr-b{position:absolute;inset:0}.tr-h{position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(43,45,58,.55),0 0 0 3px #FF9AFF;pointer-events:none;transition:all .25s}
+.tr-c{position:absolute;background:#fff;border-radius:18px;padding:16px;box-shadow:0 12px 36px rgba(0,0,0,.28);color:#2B2D3A;box-sizing:border-box}.tr-c small{color:#6B6D7A}.tr-c h4{margin:4px 0 6px;font-size:17px}.tr-c p{margin:0 0 12px;font-size:14px;line-height:1.55;color:#4A4C5A}
+.tr-r{display:flex;align-items:center;gap:8px}.tr-r span{flex:1}.tr-r button{min-height:40px;border:0;border-radius:20px;padding:0 16px;font:inherit;cursor:pointer;background:#FF9AFF;color:#2B2D3A;font-weight:600}.tr-r .tr-s{background:none;padding:0 4px;color:#6B6D7A;font-weight:400;text-decoration:underline}.tr-r .tr-p{background:#F3F3F3}
+.hr .hlp{font-size:20px}
+
 .obx{background:#fff;border:2px solid #FFDFFF;border-radius:28px;padding:20px 22px;margin-bottom:22px;box-shadow:0 10px 30px rgba(255,154,255,.18)}.obh{display:flex;justify-content:space-between;gap:6px 14px;flex-wrap:wrap;align-items:baseline}.obh small{color:#6B6D7A}
 .obbar{height:10px;border-radius:5px;background:#EDEDED;margin:12px 0;overflow:hidden}.obbar i{display:block;height:100%;background:#FF9AFF;border-radius:5px;transition:width .6s}
 .obs{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.obs em{font-style:normal;display:inline-flex;align-items:center;gap:6px;min-height:32px;border-radius:16px;font-size:13px;color:#6B6D7A}.obs em u{text-decoration:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#EDEDED;font-weight:600;flex:none}.obs em.ok u{background:#CDEFD9;color:#1F7A4D}.obs em.cur{background:#FFDFFF;color:#2B2D3A;font-weight:600;padding-right:12px}.obs em.cur u{background:#FF9AFF}
@@ -131,7 +136,7 @@ HEART = HEART.replace('fl2', 'fl')
 
 def header(extra=''):
     return ('<header class="hd"><div><div class="hi0">Welcome back</div><div class="sub">{{today}}</div></div>'
-            '<div class="hr">' + extra + '<button class="av2" style="border:0;cursor:pointer" aria-label="ตั้งค่าร้าน" onClick="{{openShop}}">' + AVATAR + '</button></div></header>')
+            '<div class="hr">' + extra + '<button class="av2 hlp" style="border:0;cursor:pointer;font:inherit;font-weight:700;font-size:20px" aria-label="ดูคำแนะนำการใช้งาน" title="ดูคำแนะนำการใช้งาน" onClick="{{tourStart}}">?</button><button class="av2" data-tour="shop" style="border:0;cursor:pointer" aria-label="ตั้งค่าร้าน" onClick="{{openShop}}">' + AVATAR + '</button></div></header>')
 
 def hero(svg, title_html, sub_html, btn_html):
     return ('<section class="hero rs"><span class="bl" style="width:200px;height:200px;left:-40px;top:-60px"></span>'
@@ -140,8 +145,7 @@ def hero(svg, title_html, sub_html, btn_html):
 
 WARN0 = '<sc-if value="{{noStore}}" hint-placeholder-val="{{false}}"><div class="wn">⚠ มุมมองนี้บันทึกข้อมูลถาวรไม่ได้ ข้อมูลที่เพิ่มจะหายเมื่อปิดหน้า ลองเปิดจากลิงก์ที่แชร์ของ artifact</div></sc-if>'
 
-GUIDE = '<sc-if value="{{g.lock}}" hint-placeholder-val="{{false}}"><div class="oblk"><div class="obcard"><h2>ยังเปิดหน้านี้ไม่ได้</h2><p>{{g.lockTxt}}</p><button class="bt" onClick="{{g.go}}">ไปทำขั้นตอนที่ {{g.n}}</button></div></div></sc-if>' \
- '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><section class="obx" role="status" aria-label="ขั้นตอนเริ่มต้นใช้งาน"><div class="obh"><b>ตั้งค่าร้าน · ขั้นตอนที่ {{g.n}} จาก 5</b><small>{{g.nextTxt}}</small></div><div class="obbar"><i style="width:{{g.pct}}%"></i></div>' \
+GUIDE = '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><section class="obx" role="status" aria-label="ขั้นตอนเริ่มต้นใช้งาน"><div class="obh"><b>ตั้งค่าร้าน · ขั้นตอนที่ {{g.n}} จาก 5</b><small>{{g.nextTxt}}</small></div><div class="obbar"><i style="width:{{g.pct}}%"></i></div>' \
  '<div class="obs"><sc-for list="{{g.dots}}" as="x"><em class="{{x.c}}"><u>{{x.m}}</u>{{x.t}}</em></sc-for></div><h3 class="obt">{{g.t}}</h3><p class="obd">{{g.desc}}</p>' \
  '<sc-if value="{{g.hasSubs}}"><div class="obsub"><sc-for list="{{g.subs}}" as="y"><div class="{{y.c}}"><u>{{y.m}}</u>{{y.t}}</div></sc-for></div></sc-if><button class="bt" onClick="{{g.go}}">{{g.btn}}</button></section></sc-if>'
 WARN = WARN0 + GUIDE
@@ -209,7 +213,7 @@ const NAVP=['Main','Schedule','Clients','Staff','Services','Finance','Inventory'
 const hrsOk=d=>{const h=d.shop.hours;return !!(h&&h.open&&h.close&&h.open<h.close&&(h.days||[]).length)};
 const stepDone=d=>[!!d.shop.name,d.services.length>0&&hrsOk(d),d.staff.length>0,d.customers.length>0,d.appts.length>0];
 const stepNow=d=>{if(d.shop.setup)return 5;const i=stepDone(d).indexOf(false);return i<0?5:i};
-const pageAllowed=(d,pg)=>{const n=stepNow(d);if(n>=5||pg==='Main')return true;return STEPS.some((s,i)=>i<=n&&s.page===pg)};
+const pageAllowed=()=>true;
 const goPage=(pg)=>{const a=document.createElement('a');a.href=pg+'.dc.html';document.body.appendChild(a);a.click();a.remove()};
 const DAYN=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
 const hoursTxt=d=>{const h=d.shop.hours;if(!hrsOk(d))return 'ยังไม่ได้ตั้ง';const ds=h.days.length===7?'ทุกวัน':h.days.map(x=>DAYN[x].replace('วัน','')).join(' ');return ds+' '+h.open+'–'+h.close};
@@ -217,10 +221,47 @@ function guideGo(self){const d=load(),n=stepNow(d);if(n>=5)return;const s=STEPS[
 function guideVals(self){const d=load(),n=stepNow(d),on=n<5,s=STEPS[Math.min(n,4)],lk={};NAVP.forEach(p=>{lk[p]=pageAllowed(d,p)?'':'lkd'});
 const subs=n===1?[{m:d.services.length?'✓':'○',c:d.services.length?'ok':'',t:'เพิ่มบริการอย่างน้อย 1 รายการ'+(d.services.length?' ('+d.services.length+')':'')},{m:hrsOk(d)?'✓':'○',c:hrsOk(d)?'ok':'',t:'กำหนดเวลาทำการ'+(hrsOk(d)?' · '+hoursTxt(d):'')}]:[];
 const btn=n===1&&d.services.length&&!hrsOk(d)?'ตั้งเวลาทำการ':s.btn;
-return{lk,g:{on,lock:on&&!pageAllowed(d,PAGE),n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),lockTxt:'ทำตามลำดับเพื่อตั้งค่าร้านให้ครบก่อน ขั้นตอนที่ '+(n+1)+' คือ “'+s.t+'” แล้วจึงเปิดหน้านี้ได้',dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
+return{lk,tourStart:()=>tourStart(),g:{on,n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
+const TK='solva_tour_v1';
+const TOUR=[
+{p:'Main',s:'[data-tour=cap]',t:'ตั้งจำนวนคิวสูงสุดต่อวัน',d:'กดปุ่ม ··· ตรงนี้เพื่อกำหนดว่าวันหนึ่งรับได้กี่คิว เมื่อคิวเต็ม ปฏิทินจะขึ้น “คิวเต็ม” และระบบจะไม่รับนัดเพิ่ม เปลี่ยนตัวเลขได้ทุกเมื่อ'},
+{p:'Main',s:'[data-tour=shop]',t:'ตั้งค่าร้าน',d:'กดไอคอนนี้เพื่อแก้ชื่อร้าน เบอร์โทร และเป้าหมายรายได้ต่อเดือน รวมถึงสำรองข้อมูลเป็นไฟล์หรือรีเซ็ตข้อมูลเพื่อเริ่มใหม่'},
+{p:'Schedule',s:'[data-tour=appt]',t:'สร้างและแก้นัดหมาย',d:'กดสร้างนัดหมายได้จากตรงนี้ ส่วนนัดที่มีอยู่ ให้กดที่รายการเพื่อเลื่อนเวลา เปลี่ยนช่าง รับชำระ หรือยกเลิกได้'},
+{p:'Services',s:'[data-tour=hours]',t:'แก้เวลาทำการ',d:'เปลี่ยนวันและเวลาเปิด–ปิดร้านได้ตรงนี้ ระบบจะไม่รับนัดในวันหรือเวลาที่ร้านปิด ส่วนราคาและบริการแก้ได้โดยกดที่รายการบริการ'},
+{p:'Staff',s:'[data-tour=staff]',t:'จัดการพนักงาน',d:'เพิ่มพนักงานใหม่ได้ที่นี่ กดชื่อพนักงานในรายการเพื่อแก้เวลาทำงาน ทักษะ และอัตราค่าคอมมิชชัน หรือเช็คอินเข้างาน'},
+{p:'Clients',s:'[data-tour=tier]',t:'ตั้งค่าระดับสมาชิก',d:'กำหนดระดับสมาชิก ส่วนลด และเงื่อนไขการอัปเกรดได้ที่นี่ ส่วนข้อมูลและโน้ตของลูกค้าแต่ละคนแก้ได้จากหน้าโปรไฟล์'},
+{p:'Finance',s:'[data-tour=goal]',t:'ตั้งเป้าหมายรายได้',d:'ตั้งหรือเปลี่ยนเป้าหมายรายได้ต่อเดือน กราฟวงกลมจะแสดงว่าทำได้ถึงเป้าแล้วกี่เปอร์เซ็นต์'},
+{p:'Inventory',s:'[data-tour=stock]',t:'เพิ่มสินค้าและสต็อก',d:'เพิ่มสินค้าและกำหนดจุดสั่งซื้อซ้ำ เมื่อของใกล้หมดระบบจะแจ้งเตือน'}];
+function tourGet(){try{return JSON.parse(localStorage.getItem(TK)||'null')}catch(e){return window.__tr||null}}
+function tourSet(v){window.__tr=v;try{if(v==null)localStorage.removeItem(TK);else localStorage.setItem(TK,JSON.stringify(v))}catch(e){}}
+function tourClose(){const r=document.getElementById('tour-root');if(r)r.remove();clearInterval(window.__tti);document.removeEventListener('keydown',window.__tkd||(()=>{}));window.addEventListener&&window.removeEventListener('resize',window.__trs||(()=>{}))}
+function tourEnd(){tourClose();tourSet({done:1})}
+function tourStart(){tourSet({i:0});const f=TOUR.findIndex(x=>x.p===PAGE);if(f===0)tourShow(0);else goPage('Main')}
+function tourBoot(){const st=tourGet();if(!st||st.done||st.i==null)return;const k=st.i;if(!TOUR[k]||TOUR[k].p!==PAGE)return;setTimeout(()=>tourShow(k),700)}
+function tourNext(i,dir){const j=i+dir;tourClose();if(j>=TOUR.length){tourEnd();return}if(j<0)return;tourSet({i:j});if(TOUR[j].p===PAGE)tourShow(j);else goPage(TOUR[j].p)}
+function tourShow(i,tries){tries=tries||0;const st=TOUR[i];if(!st){tourEnd();return}tourClose();
+let el=document.querySelector(st.s);const vis=e=>{if(!e)return false;const r=e.getBoundingClientRect();return r.width>2&&r.height>2};
+if(!vis(el)){if(tries<8){setTimeout(()=>tourShow(i,tries+1),250);return}if(i+1<TOUR.length&&TOUR[i+1].p===PAGE){tourSet({i:i+1});return tourShow(i+1)}return tourNext(i,1)}
+const root=document.createElement('div');root.id='tour-root';
+root.innerHTML='<div class="tr-b"></div><div class="tr-h"></div><div class="tr-c" role="dialog" aria-label="คำแนะนำการใช้งาน"><small></small><h4></h4><p></p><div class="tr-r"><button class="tr-s">ข้ามคำแนะนำ</button><span></span><button class="tr-p">ย้อนกลับ</button><button class="tr-n"></button></div></div>';
+document.body.appendChild(root);
+const h=root.querySelector('.tr-h'),c=root.querySelector('.tr-c');
+c.querySelector('small').textContent='คำแนะนำ '+(i+1)+' จาก '+TOUR.length;c.querySelector('h4').textContent=st.t;c.querySelector('p').textContent=st.d;
+const nb=c.querySelector('.tr-n');nb.textContent=i===TOUR.length-1?'เสร็จสิ้น':'ถัดไป';nb.onclick=()=>tourNext(i,1);
+const pb=c.querySelector('.tr-p');if(i===0)pb.style.display='none';pb.onclick=()=>tourNext(i,-1);
+c.querySelector('.tr-s').onclick=()=>tourEnd();
+const place=()=>{const e=document.querySelector(st.s);if(!e)return;const r=e.getBoundingClientRect(),vw=innerWidth,vh=innerHeight,p=6;
+h.style.cssText='left:'+(r.left-p)+'px;top:'+(r.top-p)+'px;width:'+(r.width+2*p)+'px;height:'+(r.height+2*p)+'px';
+const cw=Math.min(320,vw-24);c.style.width=cw+'px';const ch=c.offsetHeight;let top=r.bottom+p+12;if(top+ch>vh-12)top=Math.max(12,r.top-p-12-ch);
+let left=r.left+r.width/2-cw/2;left=Math.max(12,Math.min(left,vw-cw-12));c.style.top=top+'px';c.style.left=left+'px'};
+try{el.scrollIntoView({block:'center',inline:'nearest'})}catch(e){}
+setTimeout(()=>{place();nb.focus&&nb.focus({preventScroll:true})},120);
+window.__trs=place;window.addEventListener('resize',place);window.addEventListener('scroll',place,true);
+window.__tti=setInterval(()=>{if(!document.getElementById('tour-root'))clearInterval(window.__tti);else place()},400);
+window.__tkd=e=>{if(e.key==='Escape')tourEnd()};document.addEventListener('keydown',window.__tkd)}
 class Base extends DCLogic{
-componentDidMount(){this._h=()=>this.setState({_t:Date.now()});window.addEventListener('storage',this._h);try{if(window.BroadcastChannel){this._bc=new BroadcastChannel('solva');this._bc.onmessage=this._h}}catch(e){}window.addEventListener('focus',this._h);this._sn=stepNow(load());this.boot&&this.boot()}
-componentDidUpdate(){const d=load(),n=stepNow(d),p=this._sn;this._sn=n;if(p==null||n<=p)return;if(n>=5&&!d.shop.setup)M(x=>{x.shop.setup=true});if(Date.now()-(window.__lw||0)>2500)return;const done=STEPS[Math.min(n,5)-1],nx=n>=5?null:STEPS[n];this.toast('✓ ขั้นตอนที่ '+n+' เสร็จแล้ว: '+done.t+(nx?' · ไปต่อ: '+nx.t:' · ตั้งค่าร้านครบแล้ว!'),3200);setTimeout(()=>{if(nx){uiSet({open:nx.open});goPage(nx.page)}else goPage('Main')},1500)}
+componentDidMount(){this._h=()=>this.setState({_t:Date.now()});window.addEventListener('storage',this._h);try{if(window.BroadcastChannel){this._bc=new BroadcastChannel('solva');this._bc.onmessage=this._h}}catch(e){}window.addEventListener('focus',this._h);this._sn=stepNow(load());this.boot&&this.boot();tourBoot()}
+componentDidUpdate(){const d=load(),n=stepNow(d),p=this._sn;this._sn=n;if(p==null||n<=p)return;if(n>=5&&!d.shop.setup)M(x=>{x.shop.setup=true});if(Date.now()-(window.__lw||0)>2500)return;const done=STEPS[Math.min(n,5)-1],nx=n>=5?null:STEPS[n];this.toast('✓ ขั้นตอนที่ '+n+' เสร็จแล้ว: '+done.t+(nx?' · ไปต่อ: '+nx.t:' · ตั้งค่าร้านครบแล้ว!'),3200);setTimeout(()=>{if(nx){uiSet({open:nx.open});goPage(nx.page)}else{const t=tourGet();if(!t||(!t.done&&t.i==null))tourSet({i:0});goPage('Main')}},1500)}
 componentWillUnmount(){window.removeEventListener('storage',this._h);window.removeEventListener('focus',this._h);try{this._bc&&this._bc.close()}catch(e){}}
 toast(m,ms){this.setState({to:m});clearTimeout(this._tt);this._tt=setTimeout(()=>this.setState({to:''}),ms||2400)}
 toggleMenu=()=>this.setState({menu:!this.state.menu});
@@ -236,7 +277,7 @@ const SHOP_SPEC=[{k:'name',label:'ชื่อร้าน (แสดงบน�
 async function saveFile(name,blob){let dl=null;try{dl=window.claude&&await window.claude.use('downloads')}catch(e){}
 if(dl)return dl.save({filename:name,data:blob});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
 async function backup(self){try{await saveFile('solva-backup-'+TODAY()+'.json',new Blob([JSON.stringify(load())],{type:'application/json'}));self.toast('บันทึกไฟล์สำรองแล้ว')}catch(e){self.toast('บันทึกไฟล์สำรองไม่ได้ในมุมมองนี้')}}
-function shopMo(self,F,S){return{title:'ตั้งค่าร้าน',hint:'ชื่อร้านใช้บนบิลและรายงาน · ปุ่ม “รีเซ็ตข้อมูลทั้งหมด” ล้างทุกอย่างเพื่อเริ่มใหม่ (กด 2 ครั้งเพื่อยืนยัน)',spec:SHOP_SPEC,save:()=>saveShop(self),extra:{t:'สำรองข้อมูลเป็นไฟล์',go:()=>backup(self)},delTxt:'รีเซ็ตข้อมูลทั้งหมด',del:()=>{if(!S.cdel)return self.setState({cdel:true});save(EMPTY());uiSet({open:'',date:'',sel:0});self.setState({form:null,cdel:false,sel:null,fe:'',f:'all',q:''});self.toast('รีเซ็ตข้อมูลทั้งหมดแล้ว')}}}
+function shopMo(self,F,S){return{title:'ตั้งค่าร้าน',hint:'ชื่อร้านใช้บนบิลและรายงาน · ปุ่ม “รีเซ็ตข้อมูลทั้งหมด” ล้างทุกอย่างเพื่อเริ่มใหม่ (กด 2 ครั้งเพื่อยืนยัน)',spec:SHOP_SPEC,save:()=>saveShop(self),extra:{t:'สำรองข้อมูลเป็นไฟล์',go:()=>backup(self)},delTxt:'รีเซ็ตข้อมูลทั้งหมด',del:()=>{if(!S.cdel)return self.setState({cdel:true});save(EMPTY());tourSet(null);uiSet({open:'',date:'',sel:0});self.setState({form:null,cdel:false,sel:null,fe:'',f:'all',q:''});self.toast('รีเซ็ตข้อมูลทั้งหมดแล้ว')}}}
 function saveShop(self){const F=self.state.form;M(d=>{d.shop.name=(F.name||'').trim();d.shop.phone=(F.phone||'').trim();d.shop.goal=Math.max(0,+F.goal||0)});self.setState({form:null,fe:''});self.toast('บันทึกการตั้งค่าร้านแล้ว')}
 """
 

@@ -13,7 +13,7 @@ body = ('<div class="app">' + nav('Clients') + '<main class="mn">' + header() +
  '<h2>ยังไม่มีข้อมูลลูกค้า</h2><p>เพิ่มลูกค้าเพื่อเก็บเบอร์โทร โน้ต และประวัติการใช้บริการ จากนั้นสมัครสมาชิกให้ลูกค้าที่ต้องการสะสมแต้มได้</p></div></sc-if>'
  '<sc-if value="{{hasAny}}" hint-placeholder-val="{{true}}"><div id="list" class="row"><input class="si" placeholder="ค้นหาชื่อหรือเบอร์โทร" aria-label="ค้นหาลูกค้า" value="{{q}}" onInput="{{onQ}}">'
  '<div class="sg"><sc-for list="{{segs}}" as="s" hint-placeholder-count="3"><button class="{{s.on}}" onClick="{{s.pick}}">{{s.name}}</button></sc-for></div>'
- '<button class="bt o" style="margin-left:auto" onClick="{{tierSet}}">ตั้งค่าระดับสมาชิก</button></div>'
+ '<button class="bt o" data-tour="tier" style="margin-left:auto" onClick="{{tierSet}}">ตั้งค่าระดับสมาชิก</button></div>'
  '<div class="lay"><div class="c l1"><div class="sx"><div class="r h"><div>ลูกค้า</div><div>เบอร์ติดต่อ</div><div>สถานะ</div><div>ล่าสุด</div><div>ครั้ง</div><div>ยอดสะสม</div></div>'
  '<sc-for list="{{rows}}" as="r" hint-placeholder-count="4"><div class="r {{r.on}}"><div class="ph"><i>{{r.ini}}</i><button class="nb" onClick="{{r.pick}}">{{r.name}}</button></div><div data-label="เบอร์โทร">{{r.phone}}</div><div class="bdg"><span class="sb2 {{r.bc}}"><i></i>{{r.badge}}</span></div><div data-label="ล่าสุด">{{r.last}}</div><div data-label="ครั้ง">{{r.visits}}</div><div data-label="ยอดสะสม">{{r.spend}}</div></div></sc-for></div>'
  '<sc-if value="{{noRows}}" hint-placeholder-val="{{false}}">' + EMPTYMINI('ไม่พบลูกค้าที่ตรงกับตัวกรอง<br><button class="bt o" style="margin-top:12px" onClick="{{clear}}">ล้างตัวกรอง</button>') + '</sc-if></div>'

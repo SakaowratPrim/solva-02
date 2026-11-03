@@ -16,7 +16,7 @@ body = ('<div class="app">' + nav('Schedule') + '<main class="mn">' + header() +
  '<div class="row"><div class="stp"><button aria-label="วันก่อนหน้า" onClick="{{prev}}">‹</button><b>{{dateShort}}</b><button aria-label="วันถัดไป" onClick="{{next}}">›</button></div><button class="bt o" onClick="{{goToday}}">วันนี้</button>'
  '<select class="sel2" value="{{fs}}" onChange="{{onFs}}" aria-label="กรองพนักงาน"><sc-for list="{{fsOpts}}" as="o"><option value="{{o.v}}">{{o.t}}</option></sc-for></select>'
  '<select class="sel2" value="{{fst}}" onChange="{{onFst}}" aria-label="กรองสถานะ"><sc-for list="{{fstOpts}}" as="o"><option value="{{o.v}}">{{o.t}}</option></sc-for></select>'
- '<button class="bt" style="margin-left:auto" onClick="{{add}}">+ สร้างนัดหมาย</button><button class="bt d" onClick="{{png}}">บันทึกบิลเป็น PNG</button>'+CAPMENU+'</div>'
+ '<button class="bt" data-tour="appt" style="margin-left:auto" onClick="{{add}}">+ สร้างนัดหมาย</button><button class="bt d" onClick="{{png}}">บันทึกบิลเป็น PNG</button>'+CAPMENU+'</div>'
  '<sc-if value="{{hasConf}}"><div class="wn">⚠ {{confTxt}}</div></sc-if>'
  '<sc-if value="{{hasUt}}"><div class="c rs" style="margin-bottom:22px;--i:2"><h2>การใช้เวลาของช่างวันนี้</h2><sc-for list="{{ut}}" as="u"><div class="ut"><span>{{u.n}}</span><div class="bar"><i style="width:{{u.w}}%"></i></div><b>{{u.p}}</b></div></sc-for>'
  '<div class="mut" style="font-size:13px">คิดจากเวลาของบริการที่ใช้ เทียบกับเวลาทำงานของช่างแต่ละคน</div></div></sc-if>'
