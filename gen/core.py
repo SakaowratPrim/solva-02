@@ -17,6 +17,7 @@ FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@4
 # ---------- CSS added on top of each page's original CSS (no .mb here: it clashes) ----------
 
 RESP = r"""
+.sb .lg{display:block;margin-bottom:8px}.lgi{display:block;width:64px;height:auto;margin:0 auto}
 .hero>svg{flex:none;max-width:42%;height:auto}.dn svg{width:100%;height:auto}
 @media(min-width:1700px){.app{max-width:1760px;margin:0 auto}}
 @media(max-width:1100px){.mn{padding:24px 22px 120px 16px}.sb{margin-left:16px}.hero{padding:28px 32px}.hl{font-size:36px}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}}
@@ -66,6 +67,7 @@ RESP = r"""
 .dn{width:230px}.tl b{font-size:19px}
 }
 """
+LOGO = open(__file__.rsplit('/',1)[0]+'/logo_uri.txt').read().strip()
 CAPMENU = '<div class="mm3"><button class="mm3b" aria-label="ตัวเลือกเพิ่มเติม" aria-haspopup="menu" onClick="{{toggleMenu}}">···</button><sc-if value="{{menuOpen}}"><div class="mov" onClick="{{toggleMenu}}"></div><div class="mpop" role="menu"><button role="menuitem" onClick="{{openCap}}">ตั้งค่าจำนวนคิวสูงสุด</button></div></sc-if></div>'
 EXTRA_CSS = r"""
 .mm3{position:relative;display:inline-block}.mm3b{width:44px;height:44px;border:0;border-radius:50%;background:#F3F3F3;font:inherit;font-size:22px;font-weight:700;letter-spacing:1px;cursor:pointer;color:#4A4C5A;transition:.2s}.mm3b:hover{background:#FFDFFF}.mov{position:fixed;inset:0;z-index:40}.mpop{position:absolute;right:0;top:50px;z-index:41;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:6px;min-width:210px}.mpop button{display:block;width:100%;min-height:44px;border:0;background:none;text-align:left;padding:0 14px;border-radius:10px;font:inherit;cursor:pointer}.mpop button:hover{background:#FFDFFF}
@@ -109,7 +111,7 @@ ICONS = {
 NAVL = [('Main','ภาพรวม'),('Schedule','ตารางนัด'),('Clients','ลูกค้า'),('Staff','พนักงาน'),('Services','บริการ'),('Finance','การเงิน'),('Inventory','สต็อก')]
 
 def nav(active):
-    h = '<nav class="sb"><div class="lg">Solva</div>'
+    h = '<nav class="sb"><a class="lg" href="Main.dc.html" aria-label="Solva"><img class="lgi" src="' + LOGO + '" alt="Solva" width="64" height="22"></a>'
     for k, t in NAVL:
         on = ' class="on"' if k == active else ''
         h += ('<a href="%s.dc.html"%s aria-label="%s"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
