@@ -54,7 +54,7 @@ body = ('<div class="app">' + nav('Staff') + '<main class="mn">' + header() +
 
 js = png_js() + r"""
 const TB=['ข้อมูลพื้นฐาน','ชั่วโมงทำงาน','ความถนัด','การเข้างาน','ค่าคอมฯ & ทิป','ประวัติงาน'],FL=[['all','ทั้งหมด'],['ontime','ตรงเวลา'],['late','มาสาย'],['leave','ลา']];
-const mkStaff=()=>({_k:'staff',name:'',full:'',role:'ช่างเล็บ',phone:'',start:'',rate:'',ws:'09:00',we:'18:00'});
+const mkStaff=()=>{const h=load().shop.hours;return{_k:'staff',name:'',full:'',role:'ช่างเล็บ',phone:'',start:'',rate:'',ws:h?h.open:'09:00',we:h?h.close:'18:00'}};
 const hrsOf=r=>r&&r.type==='work'&&r.in&&r.out?Math.max(0,(tmin(r.out)-tmin(r.in))/60):0,h1=n=>(Math.round(n*10)/10)+' ชม.';
 function billCom(d,s,k,L,tot,paid,pend){const rt=+s.rate,CP=['#CDEFD9','#1F7A4D'],CW=['#FBE8A6','#8A6500'],rg=mRange(k),last=k===mkey(TODAY())?TODAY():rg[1],a=pd(rg[0]),b=pd(last);
 const rows=L.map(x=>[thS(x.date),x.cust+' · '+x.svc,fm(x.v),rt+'%',fm(x.cm),{t:x.p?'Paid':'Pending',chip:x.p?CP:CW}]);

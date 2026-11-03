@@ -38,7 +38,7 @@ RESP = r"""
 .fab{right:14px;bottom:calc(88px + env(safe-area-inset-bottom));width:56px;height:56px}
 .mb{height:200px;gap:8px}
 .tk{overflow:hidden}.ov{padding:16px 12px}.md{padding:20px 18px;border-radius:24px}
-.to{max-width:calc(100vw - 24px)}
+.to{max-width:calc(100vw - 24px)}.sb .lg{display:none}
 .ff input,.ff select,.ff textarea,.si,.hr input,.sel2{font-size:16px}
 }
 @media(min-width:700px) and (max-width:820px){.g2{grid-template-columns:1fr 1fr}}
@@ -70,6 +70,12 @@ RESP = r"""
 LOGO = open(__file__.rsplit('/',1)[0]+'/logo_uri.txt').read().strip()
 CAPMENU = '<div class="mm3"><button class="mm3b" aria-label="ตัวเลือกเพิ่มเติม" aria-haspopup="menu" onClick="{{toggleMenu}}">···</button><sc-if value="{{menuOpen}}"><div class="mov" onClick="{{toggleMenu}}"></div><div class="mpop" role="menu"><button role="menuitem" onClick="{{openCap}}">ตั้งค่าจำนวนคิวสูงสุด</button></div></sc-if></div>'
 EXTRA_CSS = r"""
+.obx{background:#fff;border:2px solid #FFDFFF;border-radius:28px;padding:20px 22px;margin-bottom:22px;box-shadow:0 10px 30px rgba(255,154,255,.18)}.obh{display:flex;justify-content:space-between;gap:6px 14px;flex-wrap:wrap;align-items:baseline}.obh small{color:#6B6D7A}
+.obbar{height:10px;border-radius:5px;background:#EDEDED;margin:12px 0;overflow:hidden}.obbar i{display:block;height:100%;background:#FF9AFF;border-radius:5px;transition:width .6s}
+.obs{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.obs em{font-style:normal;display:inline-flex;align-items:center;gap:6px;min-height:32px;border-radius:16px;font-size:13px;color:#6B6D7A}.obs em u{text-decoration:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#EDEDED;font-weight:600;flex:none}.obs em.ok u{background:#CDEFD9;color:#1F7A4D}.obs em.cur{background:#FFDFFF;color:#2B2D3A;font-weight:600;padding-right:12px}.obs em.cur u{background:#FF9AFF}
+.obt{font-size:19px;font-weight:600;margin:14px 0 2px}.obd{margin:0 0 12px;color:#4A4C5A}.obsub{display:grid;gap:6px;margin:0 0 14px}.obsub div{display:flex;gap:8px;align-items:center}.obsub u{text-decoration:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:2px solid #D9D9D9;font-size:13px;flex:none}.obsub .ok u{background:#CDEFD9;border-color:#7BD3A0;color:#1F7A4D}
+.oblk{position:fixed;inset:0;z-index:30;background:rgba(247,247,247,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;place-items:center;padding:24px}.obcard{background:#fff;border-radius:28px;padding:28px 26px;max-width:420px;text-align:center;box-shadow:0 18px 50px rgba(60,40,70,.18)}.obcard h2{margin:0 0 8px}.obcard p{margin:0 0 16px;color:#4A4C5A}
+.sb{z-index:31}.sb a.lkd{opacity:.42;position:relative}.sb a.lkd:after{content:"🔒";position:absolute;top:2px;right:10px;font-size:10px}
 .mm3{position:relative;display:inline-block}.mm3b{width:44px;height:44px;border:0;border-radius:50%;background:#F3F3F3;font:inherit;font-size:22px;font-weight:700;letter-spacing:1px;cursor:pointer;color:#4A4C5A;transition:.2s}.mm3b:hover{background:#FFDFFF}.mov{position:fixed;inset:0;z-index:40}.mpop{position:absolute;right:0;top:50px;z-index:41;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:6px;min-width:210px}.mpop button{display:block;width:100%;min-height:44px;border:0;background:none;text-align:left;padding:0 14px;border-radius:10px;font:inherit;cursor:pointer}.mpop button:hover{background:#FFDFFF}
 .lgd b{background:#FF9AFF!important}.lgd b.a{background:#FFDFFF!important}
 .si{flex:1;min-width:200px;max-width:340px;height:44px;border:1px solid #D9D9D9;border-radius:22px;padding:0 18px;font-size:15px;background:#fff}
@@ -113,7 +119,7 @@ NAVL = [('Main','ภาพรวม'),('Schedule','ตารางนัด'),('
 def nav(active):
     h = '<nav class="sb"><a class="lg" href="Main.dc.html" aria-label="Solva"><img class="lgi" src="' + LOGO + '" alt="Solva" width="64" height="22"></a>'
     for k, t in NAVL:
-        on = ' class="on"' if k == active else ''
+        on = ' class="on {{lk.%s}}"' % k if k == active else ' class="{{lk.%s}}"' % k
         h += ('<a href="%s.dc.html"%s aria-label="%s"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
               'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">%s</svg>%s</a>') % (k, on, t, ICONS[k], t)
     return h + '</nav>'
@@ -132,7 +138,13 @@ def hero(svg, title_html, sub_html, btn_html):
             '<span class="bl" style="width:160px;height:160px;right:30%;bottom:-70px;opacity:.4"></span>'
             '<div class="tx"><div class="hl">' + title_html + '</div><div class="hs">' + sub_html + '</div>' + btn_html + '</div>' + svg + '</section>')
 
-WARN = '<sc-if value="{{noStore}}" hint-placeholder-val="{{false}}"><div class="wn">⚠ มุมมองนี้บันทึกข้อมูลถาวรไม่ได้ ข้อมูลที่เพิ่มจะหายเมื่อปิดหน้า ลองเปิดจากลิงก์ที่แชร์ของ artifact</div></sc-if>'
+WARN0 = '<sc-if value="{{noStore}}" hint-placeholder-val="{{false}}"><div class="wn">⚠ มุมมองนี้บันทึกข้อมูลถาวรไม่ได้ ข้อมูลที่เพิ่มจะหายเมื่อปิดหน้า ลองเปิดจากลิงก์ที่แชร์ของ artifact</div></sc-if>'
+
+GUIDE = '<sc-if value="{{g.lock}}" hint-placeholder-val="{{false}}"><div class="oblk"><div class="obcard"><h2>ยังเปิดหน้านี้ไม่ได้</h2><p>{{g.lockTxt}}</p><button class="bt" onClick="{{g.go}}">ไปทำขั้นตอนที่ {{g.n}}</button></div></div></sc-if>' \
+ '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><section class="obx" role="status" aria-label="ขั้นตอนเริ่มต้นใช้งาน"><div class="obh"><b>ตั้งค่าร้าน · ขั้นตอนที่ {{g.n}} จาก 5</b><small>{{g.nextTxt}}</small></div><div class="obbar"><i style="width:{{g.pct}}%"></i></div>' \
+ '<div class="obs"><sc-for list="{{g.dots}}" as="x"><em class="{{x.c}}"><u>{{x.m}}</u>{{x.t}}</em></sc-for></div><h3 class="obt">{{g.t}}</h3><p class="obd">{{g.desc}}</p>' \
+ '<sc-if value="{{g.hasSubs}}"><div class="obsub"><sc-for list="{{g.subs}}" as="y"><div class="{{y.c}}"><u>{{y.m}}</u>{{y.t}}</div></sc-for></div></sc-if><button class="bt" onClick="{{g.go}}">{{g.btn}}</button></section></sc-if>'
+WARN = WARN0 + GUIDE
 
 # generic modal form (fields are described by renderVals: fm = {open,title,hint,fields,err,saveTxt,save,close,stop,canDel,del,delTxt})
 MODAL = (
@@ -155,12 +167,12 @@ CORE_JS = r"""
 const SK='solva_data_v1',UK='solva_ui_v1';
 const TH_M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'],TH_F=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],TH_D=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'],TH_S=['อา','จ','อ','พ','พฤ','ศ','ส'];
 const TIER0=[{n:'Pearl',min:0,disc:0},{n:'Gold',min:10000,disc:5},{n:'Platinum',min:30000,disc:10},{n:'Diamond',min:60000,disc:15}],TCL={Pearl:'pe',Gold:'go',Platinum:'pl',Diamond:'di'},PAYM=['เงินสด','โอนเงิน / PromptPay','บัตรเครดิต/เดบิต'];
-const EMPTY=()=>({v:1,seq:1,shop:{name:'',phone:'',goal:0},tiers:TIER0.map(t=>Object.assign({},t)),customers:[],staff:[],services:[],appts:[],att:[],tx:[],products:[],stock:[]});
+const EMPTY=()=>({v:1,seq:1,shop:{name:'',phone:'',goal:0,hours:null,setup:false},tiers:TIER0.map(t=>Object.assign({},t)),customers:[],staff:[],services:[],appts:[],att:[],tx:[],products:[],stock:[]});
 let MEM=null,OKS=true;
 try{localStorage.setItem('solva_probe','1');localStorage.removeItem('solva_probe')}catch(e){OKS=false}
 function load(){if(OKS){try{const r=localStorage.getItem(SK);MEM=r?Object.assign(EMPTY(),JSON.parse(r)):EMPTY();return MEM}catch(e){OKS=false}}if(!MEM)MEM=EMPTY();return MEM}
 function save(d){MEM=d;if(OKS){try{localStorage.setItem(SK,JSON.stringify(d))}catch(e){OKS=false}}try{if(window.BroadcastChannel){const b=new BroadcastChannel('solva');b.postMessage(1);b.close()}}catch(e){}}
-const M=fn=>{const d=load(),r=fn(d);save(d);return r};
+const M=fn=>{const d=load(),r=fn(d);save(d);window.__lw=Date.now();return r};
 function uiGet(){try{return JSON.parse(localStorage.getItem(UK)||'{}')}catch(e){return {}}}
 function uiSet(o){try{localStorage.setItem(UK,JSON.stringify(Object.assign(uiGet(),o)))}catch(e){}}
 const p2=n=>String(n).padStart(2,'0'),iso=x=>x.getFullYear()+'-'+p2(x.getMonth()+1)+'-'+p2(x.getDate()),pd=s=>{const a=s.split('-');return new Date(+a[0],+a[1]-1,+a[2])},TODAY=()=>iso(new Date()),NOWT=()=>{const x=new Date();return p2(x.getHours())+':'+p2(x.getMinutes())};
@@ -186,8 +198,29 @@ const ten=s=>{if(!s)return '—';const a=pd(s),n=new Date();let m=(n.getFullYear
 const revOf=(d,from,to)=>sum(d.appts.filter(a=>isRev(a)&&(a.paidDate||a.date)>=from&&(a.paidDate||a.date)<=to),net)+sum(d.tx.filter(t=>t.type==='in'&&t.date>=from&&t.date<=to),t=>t.amount);
 const mRange=k=>[k+'-01',k+'-'+p2(mDays(k))];
 const missing=d=>{const m=[];if(!d.services.length)m.push({t:'เพิ่มบริการและราคา',h:'Services.dc.html'});if(!d.staff.length)m.push({t:'เพิ่มพนักงาน',h:'Staff.dc.html'});return m};
+
+const STEPS=[
+{t:'ตั้งชื่อร้าน',d:'ชื่อร้านจะแสดงบนบิลและรายงาน เริ่มจากตั้งชื่อร้านของคุณก่อน',page:'Main',open:'name1',btn:'ตั้งชื่อร้าน'},
+{t:'เพิ่มบริการและกำหนดเวลาทำการ',d:'เพิ่มบริการที่ร้านให้พร้อมราคา และกำหนดวันเวลาเปิด–ปิดร้าน',page:'Services',open:'sv',btn:'เพิ่มบริการ'},
+{t:'เพิ่มพนักงาน',d:'เพิ่มช่างหรือพนักงานที่ให้บริการ เพื่อรับนัดหมายและคำนวณค่าคอมมิชชัน',page:'Staff',open:'staff',btn:'เพิ่มพนักงานคนแรก'},
+{t:'เพิ่มลูกค้า',d:'เพิ่มลูกค้าอย่างน้อย 1 คน เพื่อใช้สร้างนัดหมาย',page:'Clients',open:'cust',btn:'เพิ่มลูกค้าคนแรก'},
+{t:'สร้างนัดหมายแรก',d:'เลือกลูกค้า ช่าง และบริการ ระบบจะคิดราคาให้อัตโนมัติ',page:'Schedule',open:'appt',btn:'สร้างนัดหมายแรก'}];
+const NAVP=['Main','Schedule','Clients','Staff','Services','Finance','Inventory'];
+const hrsOk=d=>{const h=d.shop.hours;return !!(h&&h.open&&h.close&&h.open<h.close&&(h.days||[]).length)};
+const stepDone=d=>[!!d.shop.name,d.services.length>0&&hrsOk(d),d.staff.length>0,d.customers.length>0,d.appts.length>0];
+const stepNow=d=>{if(d.shop.setup)return 5;const i=stepDone(d).indexOf(false);return i<0?5:i};
+const pageAllowed=(d,pg)=>{const n=stepNow(d);if(n>=5||pg==='Main')return true;return STEPS.some((s,i)=>i<=n&&s.page===pg)};
+const goPage=(pg)=>{const a=document.createElement('a');a.href=pg+'.dc.html';document.body.appendChild(a);a.click();a.remove()};
+const DAYN=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
+const hoursTxt=d=>{const h=d.shop.hours;if(!hrsOk(d))return 'ยังไม่ได้ตั้ง';const ds=h.days.length===7?'ทุกวัน':h.days.map(x=>DAYN[x].replace('วัน','')).join(' ');return ds+' '+h.open+'–'+h.close};
+function guideGo(self){const d=load(),n=stepNow(d);if(n>=5)return;const s=STEPS[n];let open=s.open;if(n===1&&d.services.length&&!hrsOk(d))open='hours';uiSet({open});if(PAGE===s.page&&self.boot)self.boot();else goPage(s.page)}
+function guideVals(self){const d=load(),n=stepNow(d),on=n<5,s=STEPS[Math.min(n,4)],lk={};NAVP.forEach(p=>{lk[p]=pageAllowed(d,p)?'':'lkd'});
+const subs=n===1?[{m:d.services.length?'✓':'○',c:d.services.length?'ok':'',t:'เพิ่มบริการอย่างน้อย 1 รายการ'+(d.services.length?' ('+d.services.length+')':'')},{m:hrsOk(d)?'✓':'○',c:hrsOk(d)?'ok':'',t:'กำหนดเวลาทำการ'+(hrsOk(d)?' · '+hoursTxt(d):'')}]:[];
+const btn=n===1&&d.services.length&&!hrsOk(d)?'ตั้งเวลาทำการ':s.btn;
+return{lk,g:{on,lock:on&&!pageAllowed(d,PAGE),n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),lockTxt:'ทำตามลำดับเพื่อตั้งค่าร้านให้ครบก่อน ขั้นตอนที่ '+(n+1)+' คือ “'+s.t+'” แล้วจึงเปิดหน้านี้ได้',dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
 class Base extends DCLogic{
-componentDidMount(){this._h=()=>this.setState({_t:Date.now()});window.addEventListener('storage',this._h);try{if(window.BroadcastChannel){this._bc=new BroadcastChannel('solva');this._bc.onmessage=this._h}}catch(e){}window.addEventListener('focus',this._h);this.boot&&this.boot()}
+componentDidMount(){this._h=()=>this.setState({_t:Date.now()});window.addEventListener('storage',this._h);try{if(window.BroadcastChannel){this._bc=new BroadcastChannel('solva');this._bc.onmessage=this._h}}catch(e){}window.addEventListener('focus',this._h);this._sn=stepNow(load());this.boot&&this.boot()}
+componentDidUpdate(){const d=load(),n=stepNow(d),p=this._sn;this._sn=n;if(p==null||n<=p)return;if(n>=5&&!d.shop.setup)M(x=>{x.shop.setup=true});if(Date.now()-(window.__lw||0)>2500)return;const done=STEPS[Math.min(n,5)-1],nx=n>=5?null:STEPS[n];this.toast('✓ ขั้นตอนที่ '+n+' เสร็จแล้ว: '+done.t+(nx?' · ไปต่อ: '+nx.t:' · ตั้งค่าร้านครบแล้ว!'),3200);setTimeout(()=>{if(nx){uiSet({open:nx.open});goPage(nx.page)}else goPage('Main')},1500)}
 componentWillUnmount(){window.removeEventListener('storage',this._h);window.removeEventListener('focus',this._h);try{this._bc&&this._bc.close()}catch(e){}}
 toast(m,ms){this.setState({to:m});clearTimeout(this._tt);this._tt=setTimeout(()=>this.setState({to:''}),ms||2400)}
 toggleMenu=()=>this.setState({menu:!this.state.menu});
@@ -207,13 +240,15 @@ function shopMo(self,F,S){return{title:'ตั้งค่าร้าน',hint:
 function saveShop(self){const F=self.state.form;M(d=>{d.shop.name=(F.name||'').trim();d.shop.phone=(F.phone||'').trim();d.shop.goal=Math.max(0,+F.goal||0)});self.setState({form:null,fe:''});self.toast('บันทึกการตั้งค่าร้านแล้ว')}
 """
 
+WRAP = '\n{const _r=Component.prototype.renderVals;Component.prototype.renderVals=function(){return Object.assign({},guideVals(this),_r.call(this))}}\n'
+
 def page(title, css, body, js, extra_head=''):
     return ('<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>' + title + '</title><script src="./support.js"></script></head><body><x-dc><helmet>'
             + FONT_LINK + '<style>' + css + EXTRA_CSS + RESP + '</style></helmet>' + body + '</x-dc>'
-            '<script type="text/x-dc" data-dc-script data-props=\'{"$preview":{"width":1280,"height":900}}\'>' + CORE_JS + js + '</script></body></html>')
+            '<script type="text/x-dc" data-dc-script data-props=\'{"$preview":{"width":1280,"height":900}}\'>const PAGE="__PAGE__";' + CORE_JS + js + WRAP + '</script></body></html>')
 
 def write(name, html):
-    open(OUT + name, 'w', encoding='utf-8').write(html)
+    open(OUT + name, 'w', encoding='utf-8').write(html.replace('__PAGE__', name.split('.')[0]))
     print(name, len(html))
 
 def png_js():

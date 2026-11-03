@@ -9,8 +9,7 @@ FAB = '<a class="fab" href="Schedule.dc.html" aria-label="สร้างนั�
 body = ('<div class="app">' + nav('Main') + '<main class="mn">' + header(HDR_EXTRA) +
  hero(hero_svg('Main.dc.html'), 'วันนี้ร้านมี <b class="cn" style="--v:{{nQ}}"></b> คิว', '{{heroSub}}', '<a class="bt" href="{{heroHref}}" onClick="{{heroGo}}">{{heroBtn}}</a>') + WARN +
  '<sc-if value="{{hasQ}}"><div class="c rs" style="margin-bottom:22px"><h2>ผลการค้นหา “{{q}}”</h2><sc-for list="{{found}}" as="r"><a class="ap" href="{{r.h}}" onClick="{{r.go}}"><b>{{r.k}}</b> · {{r.t}}</a></sc-for><sc-if value="{{noFound}}"><p class="mut" style="margin:0">ไม่พบลูกค้า นัดหมาย หรือสินค้าที่ตรงกับคำค้น</p></sc-if></div></sc-if>'
- '<sc-if value="{{showSetup}}"><div class="c rs" style="margin-bottom:22px"><h2>เริ่มต้นใช้งาน · {{doneN}}/5 ขั้นตอน</h2><sc-for list="{{steps}}" as="s"><a class="ck {{s.cls}}" href="{{s.h}}" onClick="{{s.go}}"><i>{{s.mark}}</i><span><b>{{s.t}}</b><small>{{s.d}}</small></span></a></sc-for></div></sc-if>'
- '<div class="row rs" style="--i:1"><a class="bt" href="Schedule.dc.html" onClick="{{goAppt}}">+ เพิ่มนัดหมาย</a><a class="bt o" href="Clients.dc.html" onClick="{{goCust}}">+ เพิ่มลูกค้า</a><a class="bt d" href="Finance.dc.html" onClick="{{goOut}}">+ บันทึกรายจ่าย</a></div>'
+ '<sc-if value="{{notOnb}}"><div class="row rs" style="--i:1"><a class="bt" href="Schedule.dc.html" onClick="{{goAppt}}">+ เพิ่มนัดหมาย</a><a class="bt o" href="Clients.dc.html" onClick="{{goCust}}">+ เพิ่มลูกค้า</a><a class="bt d" href="Finance.dc.html" onClick="{{goOut}}">+ บันทึกรายจ่าย</a></div></sc-if>'
  '<div class="g2"><div class="c rs" style="--i:2;position:relative"><div style="position:absolute;top:14px;right:14px;z-index:5">'+CAPMENU+'</div><div class="lgd"><span><b></b>คิวเต็ม</span><span><b class="a"></b>มีนัด</span></div><h2 style="text-align:center">{{moTxt}}</h2><div class="cal"><span>อา</span><span>จ</span><span>อ</span><span>พ</span><span>พฤ</span><span>ศ</span><span>ส</span>'
  '<sc-for list="{{days}}" as="c" hint-placeholder-count="35"><sc-if value="{{c.blank}}"><i></i></sc-if><sc-if value="{{c.real}}"><a class="dy {{c.cls}}" href="Schedule.dc.html" aria-label="{{c.aria}}" onClick="{{c.pick}}">{{c.n}}<sc-if value="{{c.full}}"><small>คิวเต็ม</small></sc-if></a></sc-if></sc-for></div></div>'
  '<div class="c rs" style="--i:3"><h2>รายได้วันนี้</h2><div class="dn"><svg width="300" height="300" viewBox="0 0 200 200"><defs><linearGradient id="gd"><stop offset="0" stop-color="#FF9AFF"></stop><stop offset="1" stop-color="#FFDFFF"></stop></linearGradient></defs><circle cx="100" cy="100" r="80" fill="none" stroke="#E6E6E6" stroke-width="30"></circle><circle cx="100" cy="100" r="80" fill="none" stroke="url(#gd)" stroke-width="30" stroke-dasharray="{{ring}} 503" style="animation:dr 1.3s ease-out"></circle></svg>'
@@ -29,15 +28,12 @@ css_extra = ('.cal a.dy{font-style:normal;font-weight:600;width:40px;height:40px
 
 js = r"""
 class Component extends Base{
+boot(){const u=uiGet();if(u.open==='name1'){uiSet({open:''});const d=load();this.setState({form:{_k:'name1',name:d.shop.name||'',phone:d.shop.phone||''},fe:''})}}
 renderVals(){
 const d=load(),T=TODAY(),S=Object.assign({q:'',form:null,fe:'',to:''},this.state),set=o=>this.setState(o);
 const now=NOWT(),td=d.appts.filter(a=>a.date===T).sort((a,b)=>a.time.localeCompare(b.time)),act=td.filter(a=>a.status!=='canceled');
 const booked=td.filter(a=>a.status==='booked'),nBooked=booked.length,nCanc=td.filter(a=>a.status==='canceled').length,nDone=td.filter(a=>a.status==='done').length;
 const upl=booked.filter(a=>a.time>=now),up0=(upl.length?upl:booked).slice(0,5),nx=upl.length?upl[0]:null;
-const step=(done,t,dsc,h,open,go)=>({cls:done?'ok':'',mark:done?'✓':'',t,d:dsc,h,go:go||(()=>{if(open)uiSet({open})})});
-const steps=[step(d.services.length>0,'เพิ่มบริการและราคา','ตั้งชื่อบริการ ราคา และเวลาที่ใช้','Services.dc.html','sv'),step(d.staff.length>0,'เพิ่มพนักงาน','ชื่อ ตำแหน่ง และอัตราค่าคอมมิชชัน','Staff.dc.html','staff'),step(d.customers.length>0,'เพิ่มลูกค้า','เก็บเบอร์โทรและโน้ตของลูกค้า','Clients.dc.html','cust'),step(d.appts.length>0,'สร้างนัดหมายแรก','เลือกลูกค้า ช่าง และบริการ ระบบคิดราคาให้','Schedule.dc.html','appt'),
-{cls:d.shop.name?'ok':'',mark:d.shop.name?'✓':'',t:'ตั้งชื่อร้าน',d:'ชื่อร้านจะแสดงบนบิลและรายงาน',h:'#',go:e=>{e&&e.preventDefault&&e.preventDefault();openShopForm(this)}}];
-const doneN=steps.filter(s=>s.cls==='ok').length,firstTodo=steps.find(s=>s.cls!=='ok');
 const yd=iso(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()-1)),rev=revOf(d,T,T),yRev=revOf(d,yd,yd),[mf,mt]=mRange(mkey(T)),mRev=revOf(d,mf,mt);
 const cm={};d.appts.filter(a=>isRev(a)&&(a.paidDate||a.date)===T).forEach(a=>a.items.forEach(i=>{const k=i.cat||'ไม่ระบุหมวด';cm[k]=(cm[k]||0)+i.price*(1-(a.disc||0)/100)}));const cl=Object.entries(cm).sort((a,b)=>b[1]-a[1]);
 const cmp=!rev&&!yRev?'ยังไม่มีรายได้วันนี้':!yRev?'เมื่อวานยังไม่มีรายได้':(rev>=yRev?'↑ ':'↓ ')+Math.abs(Math.round((rev-yRev)/yRev*1000)/10)+'% เทียบเมื่อวาน';
@@ -57,13 +53,13 @@ d.appts.filter(a=>cName(d,a.cust).includes(q)).sort((a,b)=>b.date.localeCompare(
 d.products.filter(p=>p.name.includes(q)||(p.sku||'').includes(q)).slice(0,4).forEach(p=>found.push({k:'สินค้า',t:p.name+' · คงเหลือ '+p.qty+' '+(p.unit||''),h:'Inventory.dc.html',go:()=>{}}))}
 const pres=d.staff.filter(s=>{const r=attOf(d,s.id,T);return r&&r.type==='work'}).length;
 const F=S.form,fk=F&&F._k;let mo={};
-if(fk==='shop')mo=shopMo(this,F,S);if(fk==='cap')mo=capMo(this,F,S);
-const setup=doneN<5;
+if(fk==='shop')mo=shopMo(this,F,S);if(fk==='cap')mo=capMo(this,F,S);if(fk==='name1')mo={title:'ตั้งชื่อร้าน',hint:'ขั้นตอนที่ 1 จาก 5 · ชื่อร้านจะแสดงบนบิลและรายงาน',spec:[{k:'name',label:'ชื่อร้าน',full:1,ph:'เช่น ร้านเล็บของฉัน'},{k:'phone',label:'เบอร์โทรร้าน (ไม่บังคับ)',type:'tel',full:1}],saveTxt:'บันทึกและไปต่อ',save:()=>{const nm=(F.name||'').trim();if(!nm)return set({fe:'กรุณากรอกชื่อร้าน'});M(x=>{x.shop.name=nm;x.shop.phone=(F.phone||'').trim()});set({form:null,fe:''})}};
+const onb=stepNow(d)<5;
 return{today:thL(T),noStore:!OKS,openShop:()=>openShopForm(this),
-nQ:act.length,capN:cap,menuOpen:!!S.menu,toggleMenu:this.toggleMenu,openCap:()=>openCapForm(this),heroSub:nx?'คิวถัดไป '+nx.time+' · '+cName(d,nx.cust)+' · '+nx.items.map(i=>i.name).join(' + '):act.length?'วันนี้ไม่มีคิวที่รออยู่แล้ว':(d.appts.length?'วันนี้ยังไม่มีนัดหมาย':'ยังไม่มีข้อมูล เริ่มตั้งค่าร้านได้จากขั้นตอนด้านล่าง'),
-heroBtn:d.appts.length||!firstTodo?'ดูตารางนัด':'เริ่มตั้งค่าร้าน',heroHref:d.appts.length||!firstTodo?'Schedule.dc.html':firstTodo.h,heroGo:e=>{if(!d.appts.length&&firstTodo){if(firstTodo.h==='#'){e&&e.preventDefault&&e.preventDefault()}firstTodo.go(e)}},
+nQ:act.length,capN:cap,menuOpen:!!S.menu,toggleMenu:this.toggleMenu,openCap:()=>openCapForm(this),heroSub:onb?'ทำตามขั้นตอนด้านล่างทีละข้อ เพื่อตั้งค่าร้านให้พร้อมใช้งาน':nx?'คิวถัดไป '+nx.time+' · '+cName(d,nx.cust)+' · '+nx.items.map(i=>i.name).join(' + '):act.length?'วันนี้ไม่มีคิวที่รออยู่แล้ว':(d.appts.length?'วันนี้ยังไม่มีนัดหมาย':'ยังไม่มีข้อมูล เริ่มตั้งค่าร้านได้จากขั้นตอนด้านล่าง'),
+heroBtn:onb?'ทำขั้นตอนที่ '+(stepNow(d)+1):'ดูตารางนัด',heroHref:onb?'#':'Schedule.dc.html',heroGo:e=>{if(onb){e&&e.preventDefault&&e.preventDefault();guideGo(this)}},notOnb:!onb,
 q:S.q,onQ:e=>set({q:e.target.value}),hasQ:!!q,found,noFound:!!q&&found.length===0,hasN:notes.length>0,nN:notes.length,
-showSetup:setup,doneN,steps,goAppt:()=>uiSet({open:'appt',date:T}),goCust:()=>uiSet({open:'cust'}),goOut:()=>uiSet({open:'out'}),
+goAppt:()=>uiSet({open:'appt',date:T}),goCust:()=>uiSet({open:'cust'}),goOut:()=>uiSet({open:'out'}),
 moTxt:mTxt(mk),days,ring:mRev?Math.round(Math.min(1,rev/mRev)*503):0,revTxt:fm(rev),cmpTxt:cmp,monthRev:fm(mRev),hasL1:cl.length>0,l1:cl.length?cl[0][0]+' '+fm(cl[0][1]):'',hasL2:cl.length>1,l2:cl.length>1?cl[1][0]+' '+fm(cl[1][1]):'',
 nBooked,nCanc,nDone,presTxt:pres+'/'+d.staff.length,
 up:up0.map((a,i)=>({time:a.time,t:cName(d,a.cust)+' · '+a.items.map(x=>x.name).join(' + '),next:!!nx&&i===0})),noUp:up0.length===0,notes,noN:notes.length===0,
