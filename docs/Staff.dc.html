@@ -203,7 +203,8 @@ const btn=n===1&&d.services.length&&!hrsOk(d)?'ตั้งเวลาทำก
 return{lk,tourStart:()=>tourStart(),g:{on,n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
 const TK='solva_tour_v1';
 const TOUR=[
-{p:'Main',s:'[data-tour=cap]',t:'ตั้งจำนวนคิวสูงสุดต่อวัน',d:'กดปุ่ม ··· ตรงนี้เพื่อกำหนดว่าวันหนึ่งรับได้กี่คิว เมื่อคิวเต็ม ปฏิทินจะขึ้น “คิวเต็ม” และระบบจะไม่รับนัดเพิ่ม เปลี่ยนตัวเลขได้ทุกเมื่อ'},
+{p:'Main',s:'[data-tour=cap]',t:'ตั้งจำนวนคิวสูงสุดต่อวัน',d:'กดปุ่ม ··· ตรงนี้เพื่อเปิดเมนู แล้วตั้งว่าวันหนึ่งรับได้กี่คิว'},
+{p:'Main',s:'[data-tour=capitem]',pre:'[data-tour=cap]',t:'เลือก “ตั้งค่าจำนวนคิวสูงสุด”',d:'กดเมนูนี้เพื่อกำหนดจำนวนคิวต่อวัน เมื่อคิวเต็ม ปฏิทินจะขึ้น “คิวเต็ม” และระบบจะไม่รับนัดเพิ่ม เปลี่ยนตัวเลขได้ทุกเมื่อ'},
 {p:'Main',s:'[data-tour=shop]',t:'ตั้งค่าร้าน',d:'กดไอคอนนี้เพื่อแก้ชื่อร้าน เบอร์โทร และเป้าหมายรายได้ต่อเดือน รวมถึงสำรองข้อมูลเป็นไฟล์หรือรีเซ็ตข้อมูลเพื่อเริ่มใหม่'},
 {p:'Schedule',s:'[data-tour=appt]',t:'สร้างและแก้นัดหมาย',d:'กดสร้างนัดหมายได้จากตรงนี้ ส่วนนัดที่มีอยู่ ให้กดที่รายการเพื่อเลื่อนเวลา เปลี่ยนช่าง รับชำระ หรือยกเลิกได้'},
 {p:'Services',s:'[data-tour=hours]',t:'แก้เวลาทำการ',d:'เปลี่ยนวันและเวลาเปิด–ปิดร้านได้ตรงนี้ ระบบจะไม่รับนัดในวันหรือเวลาที่ร้านปิด ส่วนราคาและบริการแก้ได้โดยกดที่รายการบริการ'},
@@ -214,12 +215,14 @@ const TOUR=[
 function tourGet(){try{return JSON.parse(localStorage.getItem(TK)||'null')}catch(e){return window.__tr||null}}
 function tourSet(v){window.__tr=v;try{if(v==null)localStorage.removeItem(TK);else localStorage.setItem(TK,JSON.stringify(v))}catch(e){}}
 function tourClose(){const r=document.getElementById('tour-root');if(r)r.remove();clearInterval(window.__tti);document.removeEventListener('keydown',window.__tkd||(()=>{}));window.addEventListener&&window.removeEventListener('resize',window.__trs||(()=>{}))}
-function tourEnd(){tourClose();tourSet({done:1})}
+function tourMenu(){const o=document.querySelector('.mov');if(o)o.click()}
+function tourEnd(){tourMenu();tourClose();tourSet({done:1})}
 function tourStart(){tourSet({i:0});const f=TOUR.findIndex(x=>x.p===PAGE);if(f===0)tourShow(0);else goPage('Main')}
 function tourBoot(){const st=tourGet();if(!st||st.done||st.i==null)return;const k=st.i;if(!TOUR[k]||TOUR[k].p!==PAGE)return;setTimeout(()=>tourShow(k),700)}
-function tourNext(i,dir){const j=i+dir;tourClose();if(j>=TOUR.length){tourEnd();return}if(j<0)return;tourSet({i:j});if(TOUR[j].p===PAGE)tourShow(j);else goPage(TOUR[j].p)}
+function tourNext(i,dir){const j=i+dir;if(TOUR[i]&&TOUR[i].pre)tourMenu();tourClose();if(j>=TOUR.length){tourEnd();return}if(j<0)return;tourSet({i:j});if(TOUR[j].p===PAGE)tourShow(j);else goPage(TOUR[j].p)}
 function tourShow(i,tries){tries=tries||0;const st=TOUR[i];if(!st){tourEnd();return}tourClose();
 let el=document.querySelector(st.s);const vis=e=>{if(!e)return false;const r=e.getBoundingClientRect();return r.width>2&&r.height>2};
+if(!vis(el)&&st.pre&&tries===0){const b=document.querySelector(st.pre);if(b&&!document.querySelector('.mov'))b.click()}
 if(!vis(el)){if(tries<8){setTimeout(()=>tourShow(i,tries+1),250);return}if(i+1<TOUR.length&&TOUR[i+1].p===PAGE){tourSet({i:i+1});return tourShow(i+1)}return tourNext(i,1)}
 const root=document.createElement('div');root.id='tour-root';
 root.innerHTML='<div class="tr-b"></div><div class="tr-h"></div><div class="tr-c" role="dialog" aria-label="คำแนะนำการใช้งาน"><small></small><h4></h4><p></p><div class="tr-r"><button class="tr-s">ข้ามคำแนะนำ</button><span></span><button class="tr-p">ย้อนกลับ</button><button class="tr-n"></button></div></div>';
