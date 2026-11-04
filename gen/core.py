@@ -69,7 +69,11 @@ RESP = r"""
 """
 LOGO = open(__file__.rsplit('/',1)[0]+'/logo_uri.txt').read().strip()
 CAPMENU = '<div class="mm3"><button class="mm3b" aria-label="ตัวเลือกเพิ่มเติม" aria-haspopup="menu" data-tour="cap" onClick="{{toggleMenu}}">···</button><sc-if value="{{menuOpen}}"><div class="mov" onClick="{{toggleMenu}}"></div><div class="mpop" role="menu"><button role="menuitem" data-tour="capitem" onClick="{{openCap}}">ตั้งค่าจำนวนคิวสูงสุด</button></div></sc-if></div>'
-EXTRA_CSS = r"""
+EXTRA_CSS = r""".gs{position:fixed;top:92px;right:24px;width:340px;max-width:calc(100vw - 24px);z-index:35;background:#fff;border-radius:24px;padding:20px;box-shadow:0 14px 40px rgba(43,45,58,.2);box-sizing:border-box}.ggh{display:flex;align-items:center;gap:10px}.ggh b{flex:1;font-size:17px}.ggh span{color:#6B6D7A;font-size:15px}.ggm{border:0;background:#F3F3F3;width:30px;height:30px;border-radius:50%;cursor:pointer;font:inherit;font-weight:700;color:#4A4C5A}
+.ggb{display:flex;gap:6px;margin:12px 0}.ggb i{flex:1;height:5px;border-radius:3px;background:#EDEDED}.ggb i.ok{background:#FF9AFF}.ggb i.cur{background:#2B2D3A}
+.ggi{height:96px;border-radius:16px;background:linear-gradient(135deg,#FFDFFF,#FFF3FF);display:grid;place-items:center;font-size:44px;margin:4px 0 12px}.ggd{margin:0 0 12px;color:#6B6D7A;line-height:1.55;font-size:14px}.ggr{display:flex;gap:10px}.ggr .bt{flex:1;justify-content:center;text-align:center}
+@media(max-width:820px){.gs{top:auto;bottom:88px;left:12px;right:12px;width:auto;max-width:none;padding:14px 16px;border-radius:20px}.ggi{display:none}}
+
 #tour-root{position:fixed;inset:0;z-index:60}.tr-b{position:absolute;inset:0}.tr-h{position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(43,45,58,.55),0 0 0 3px #FF9AFF;pointer-events:none;transition:all .25s}
 .tr-c{position:absolute;background:#fff;border-radius:18px;padding:16px;box-shadow:0 12px 36px rgba(0,0,0,.28);color:#2B2D3A;box-sizing:border-box}.tr-c small{color:#6B6D7A}.tr-c h4{margin:4px 0 6px;font-size:17px}.tr-c p{margin:0 0 12px;font-size:14px;line-height:1.55;color:#4A4C5A}
 .tr-r{display:flex;align-items:center;gap:8px}.tr-r span{flex:1}.tr-r button{min-height:40px;border:0;border-radius:20px;padding:0 16px;font:inherit;cursor:pointer;background:#FF9AFF;color:#2B2D3A;font-weight:600}.tr-r .tr-s{background:none;padding:0 4px;color:#6B6D7A;font-weight:400;text-decoration:underline}.tr-r .tr-p{background:#F3F3F3}
@@ -145,9 +149,11 @@ def hero(svg, title_html, sub_html, btn_html):
 
 WARN0 = '<sc-if value="{{noStore}}" hint-placeholder-val="{{false}}"><div class="wn">⚠ มุมมองนี้บันทึกข้อมูลถาวรไม่ได้ ข้อมูลที่เพิ่มจะหายเมื่อปิดหน้า ลองเปิดจากลิงก์ที่แชร์ของ artifact</div></sc-if>'
 
-GUIDE = '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><section class="obx" role="status" aria-label="ขั้นตอนเริ่มต้นใช้งาน"><div class="obh"><b>ตั้งค่าร้าน · ขั้นตอนที่ {{g.n}} จาก 5</b><small>{{g.nextTxt}}</small></div><div class="obbar"><i style="width:{{g.pct}}%"></i></div>' \
- '<div class="obs"><sc-for list="{{g.dots}}" as="x"><em class="{{x.c}}"><u>{{x.m}}</u>{{x.t}}</em></sc-for></div><h3 class="obt">{{g.t}}</h3><p class="obd">{{g.desc}}</p>' \
- '<sc-if value="{{g.hasSubs}}"><div class="obsub"><sc-for list="{{g.subs}}" as="y"><div class="{{y.c}}"><u>{{y.m}}</u>{{y.t}}</div></sc-for></div></sc-if><button class="bt" onClick="{{g.go}}">{{g.btn}}</button></section></sc-if>'
+GUIDE = '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><aside class="gs" role="status" aria-label="ขั้นตอนเริ่มต้นใช้งาน"><div class="ggh"><b>{{g.t}}</b><span>{{g.n}}/5</span><button class="ggm" aria-label="{{g.tglTxt}}" onClick="{{g.tgl}}">{{g.tglIco}}</button></div>' \
+ '<div class="ggb"><sc-for list="{{g.dots}}" as="x"><i class="{{x.c}}"></i></sc-for></div>' \
+ '<sc-if value="{{g.open}}"><div class="ggi" aria-hidden="true">{{g.ico}}</div><p class="ggd">{{g.desc}}</p>' \
+ '<sc-if value="{{g.hasSubs}}"><div class="obsub"><sc-for list="{{g.subs}}" as="y"><div class="{{y.c}}"><u>{{y.m}}</u>{{y.t}}</div></sc-for></div></sc-if>' \
+ '<div class="ggr"><sc-if value="{{g.hasPrev}}"><button class="bt d" onClick="{{g.prev}}">← ก่อนหน้า</button></sc-if><button class="bt" onClick="{{g.go}}">{{g.btn}} →</button></div></sc-if></aside></sc-if>'
 WARN = WARN0 + GUIDE
 
 # generic modal form (fields are described by renderVals: fm = {open,title,hint,fields,err,saveTxt,save,close,stop,canDel,del,delTxt})
@@ -221,7 +227,7 @@ function guideGo(self){const d=load(),n=stepNow(d);if(n>=5)return;const s=STEPS[
 function guideVals(self){const d=load(),n=stepNow(d),on=n<5,s=STEPS[Math.min(n,4)],lk={};NAVP.forEach(p=>{lk[p]=pageAllowed(d,p)?'':'lkd'});
 const subs=n===1?[{m:d.services.length?'✓':'○',c:d.services.length?'ok':'',t:'เพิ่มบริการอย่างน้อย 1 รายการ'+(d.services.length?' ('+d.services.length+')':'')},{m:hrsOk(d)?'✓':'○',c:hrsOk(d)?'ok':'',t:'กำหนดเวลาทำการ'+(hrsOk(d)?' · '+hoursTxt(d):'')}]:[];
 const btn=n===1&&d.services.length&&!hrsOk(d)?'ตั้งเวลาทำการ':s.btn;
-return{lk,tourStart:()=>tourStart(),g:{on,n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
+return{lk,tourStart:()=>tourStart(),g:{on,open:!self.state.gc,tgl:()=>self.setState({gc:!self.state.gc}),tglIco:self.state.gc?'+':'–',tglTxt:self.state.gc?'ขยาย':'ย่อ',ico:['🏪','💅','👩‍🎨','💖','📅'][Math.min(n,4)],hasPrev:n>0,prev:()=>{uiSet({open:''});const q=STEPS[n-1].page;if(q===PAGE)window.scrollTo(0,0);else goPage(q)},n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
 const TK='solva_tour_v1';
 const TOUR=[
 {p:'Main',s:'[data-tour=cap]',t:'ตั้งจำนวนคิวสูงสุดต่อวัน',d:'กดปุ่ม ··· ตรงนี้เพื่อเปิดเมนู แล้วตั้งว่าวันหนึ่งรับได้กี่คิว'},
