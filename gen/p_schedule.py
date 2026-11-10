@@ -37,7 +37,7 @@ body = ('<div class="app">' + nav('Schedule') + '<main class="mn">' + header() +
  '<div class="row" style="margin:16px 0 0"><sc-for list="{{sel.acts}}" as="b"><button class="bt {{b.cls}}" onClick="{{b.go}}">{{b.t}}</button></sc-for>'
  '<sc-if value="{{sel.hasBill}}"><button class="bt o" disabled="{{busy}}" onClick="{{png}}">{{sel.pngTxt}}</button></sc-if><a class="bt o" href="Clients.dc.html">ดูโปรไฟล์ลูกค้า</a></div>'
  '<sc-if value="{{sel.noBill}}"><p class="mut" style="margin:10px 0 0">นัดนี้ไม่มีบิลให้บันทึก ({{sel.ps}})</p></sc-if></sc-if></div></div></sc-if>'
- + MODAL + '</main></div>')
+ + '<button class="fab" aria-label="สร้างนัดหมาย" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
 
 css_extra = ('.mb{height:auto;gap:0}.wk button{border:0;background:none;font:inherit;padding:10px 8px;border-radius:30px;min-width:46px;cursor:pointer;text-align:center;color:inherit}.wk button.sl{background:#D9D9D9;padding:14px 8px 18px}.wk button.p b{background:#FFDFFF}.wk button em{display:block;font-style:normal;font-size:10px;font-weight:600}.wk button em:empty{display:none}.wk button.fu b{background:#FF9AFF;color:#2B2D3A}.wk button.fu em{color:#4A4C5A}'
              '.sr button.nb{font-size:15px}.sr small{display:block}')

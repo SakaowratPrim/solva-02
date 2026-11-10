@@ -15,7 +15,7 @@ body = ('<div class="app">' + nav('Services') + '<main class="mn">' + header() +
  '<sc-if value="{{noAny}}" hint-placeholder-val="{{false}}"><div class="empty">' + HEART +
  '<h2>ยังไม่มีบริการ</h2><p>เพิ่มบริการที่ร้านให้ เช่น ทาสีเจล ต่อเล็บ พร้อมราคาและเวลาที่ใช้ เพื่อนำไปสร้างนัดหมายและบิลได้</p>'
  '</div></sc-if>'
- + MODAL + '</main></div>')
+ + '<button class="fab" aria-label="เพิ่มบริการ" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
 
 js = r"""
 const SV_CATS=['เล็บมือ','เล็บเท้า','ต่อเล็บ','ทำสปา','ตกแต่งเล็บ','ถอด/ซ่อม'],SV_NAMES=['ทาสีเจล','ล้างเจล','ต่อเล็บ','เพ้นท์ลาย','ทำสปามือ','ทำสปาเท้า'];

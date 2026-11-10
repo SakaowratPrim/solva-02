@@ -37,7 +37,7 @@ body = ('<div class="app">' + nav('Clients') + '<main class="mn">' + header() +
  '<sc-if value="{{t4}}"><div class="tp"><sc-for list="{{sel.hist}}" as="h"><div class="hi2"><button onClick="{{h.toggle}}"><span><b>{{h.date}}</b> · {{h.items}}</span><span><span class="ch {{h.pc}}">{{h.pay}}</span> {{h.ar}}</span></button>'
  '<sc-if value="{{h.isOpen}}"><div class="dd">ช่าง {{h.staff}} · {{h.dur}} · {{h.price}}{{h.more}}</div></sc-if></div></sc-for>'
  '<sc-if value="{{sel.noH}}">' + EMPTYMINI('ยังไม่มีประวัติบริการ') + '</sc-if></div></sc-if>'
- '</sc-if></div></div></sc-if>' + MODAL + '</main></div>')
+ '</sc-if></div></div></sc-if>' + '<button class="fab" aria-label="เพิ่มลูกค้า" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
 
 js = r"""
 const TB=['ข้อมูลพื้นฐาน','สถานะสมาชิก','โน้ต','สรุปการใช้บริการ','ประวัติบริการ'];

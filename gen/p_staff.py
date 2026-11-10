@@ -50,7 +50,7 @@ body = ('<div class="app">' + nav('Staff') + '<main class="mn">' + header() +
  # 5 history
  '<sc-if value="{{t5}}"><div class="tp"><sc-for list="{{sel.wh}}" as="h"><div class="hi2"><button onClick="{{h.toggle}}"><span><b>{{h.date}}</b> · {{h.cust}} · {{h.svc}}</span><span><span class="ch {{h.sc}}">{{h.st}}</span> {{h.ar}}</span></button><sc-if value="{{h.isOpen}}"><div class="dd">{{h.dur}} · {{h.price}} · ค่าคอม {{h.cm}}</div></sc-if></div></sc-for>'
  '<sc-if value="{{sel.noWh}}">' + EMPTYMINI('ยังไม่มีประวัติงาน') + '</sc-if></div></sc-if>'
- '</sc-if></div></div></sc-if>' + MODAL + '</main></div>')
+ '</sc-if></div></div></sc-if>' + '<button class="fab" aria-label="เพิ่มพนักงาน" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
 
 js = png_js() + r"""
 const TB=['ข้อมูลพื้นฐาน','ชั่วโมงทำงาน','ความถนัด','การเข้างาน','ค่าคอมฯ & ทิป','ประวัติงาน'],FL=[['all','ทั้งหมด'],['ontime','ตรงเวลา'],['late','มาสาย'],['leave','ลา']];
