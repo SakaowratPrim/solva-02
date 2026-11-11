@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re, os
-LIVE = '/tmp/claude-0/-home-claude/9b09fc01-c23e-5d99-b82f-f46153f03eb3/scratchpad/live3/project/'
+LIVE = '/tmp/claude-0/-home-claude/9b09fc01-c23e-5d99-b82f-f46153f03eb3/scratchpad/solva/project/'
 OUT = '/tmp/claude-0/-home-claude/9b09fc01-c23e-5d99-b82f-f46153f03eb3/scratchpad/out/project/'
 os.makedirs(OUT, exist_ok=True)
 
@@ -69,7 +69,8 @@ RESP = r"""
 """
 LOGO = open(__file__.rsplit('/',1)[0]+'/logo_uri.txt').read().strip()
 CAPMENU = '<div class="mm3"><button class="mm3b" aria-label="ตัวเลือกเพิ่มเติม" aria-haspopup="menu" data-tour="cap" onClick="{{toggleMenu}}">···</button><sc-if value="{{menuOpen}}"><div class="mov" onClick="{{toggleMenu}}"></div><div class="mpop" role="menu"><button role="menuitem" data-tour="capitem" onClick="{{openCap}}">ตั้งค่าจำนวนคิวสูงสุด</button></div></sc-if></div>'
-EXTRA_CSS = r""".gs{position:fixed;top:92px;right:24px;width:340px;max-width:calc(100vw - 24px);z-index:35;background:#fff;border-radius:24px;padding:20px;box-shadow:0 14px 40px rgba(43,45,58,.2);box-sizing:border-box}.ggh{display:flex;align-items:center;gap:10px}.ggh b{flex:1;font-size:17px}.ggh span{color:#6B6D7A;font-size:15px}.ggm{border:0;background:#F3F3F3;width:30px;height:30px;border-radius:50%;cursor:pointer;font:inherit;font-weight:700;color:#4A4C5A}
+EXTRA_CSS = r""".chs.ico button{font-size:24px;width:48px;height:48px;padding:0;border-radius:16px;display:grid;place-items:center}.pi{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:12px;background:#FFF0FF;margin-right:8px;font-size:18px;vertical-align:middle;line-height:1}
+.gs{position:fixed;top:92px;right:24px;width:340px;max-width:calc(100vw - 24px);z-index:35;background:#fff;border-radius:24px;padding:20px;box-shadow:0 14px 40px rgba(43,45,58,.2);box-sizing:border-box}.ggh{display:flex;align-items:center;gap:10px}.ggh b{flex:1;font-size:17px}.ggh span{color:#6B6D7A;font-size:15px}.ggm{border:0;background:#F3F3F3;width:30px;height:30px;border-radius:50%;cursor:pointer;font:inherit;font-weight:700;color:#4A4C5A}
 .ggb{display:flex;gap:6px;margin:12px 0}.ggb i{flex:1;height:5px;border-radius:3px;background:#EDEDED}.ggb i.ok{background:#FF9AFF}.ggb i.cur{background:#2B2D3A}
 .ggi{height:96px;border-radius:16px;background:linear-gradient(135deg,#FFDFFF,#FFF3FF);display:grid;place-items:center;font-size:44px;margin:4px 0 12px}.ggd{margin:0 0 12px;color:#6B6D7A;line-height:1.55;font-size:14px}.ggr{display:flex;gap:10px}.ggr .bt{flex:1;justify-content:center;text-align:center}
 @media(max-width:820px){.gs{top:auto;bottom:156px;left:12px;right:12px;width:auto;max-width:none;padding:14px 16px;border-radius:20px}.ggi{display:none}}
@@ -164,7 +165,7 @@ MODAL = (
 '<sc-if value="{{f.isIn}}"><input type="{{f.type}}" value="{{f.v}}" placeholder="{{f.ph}}" onInput="{{f.on}}"><sc-if value="{{f.hasQ}}"><div class="chs q"><sc-for list="{{f.qs}}" as="c"><button class="{{c.on}}" onClick="{{c.pick}}">{{c.t}}</button></sc-for></div></sc-if></sc-if>'
 '<sc-if value="{{f.isSel}}"><select value="{{f.v}}" onChange="{{f.on}}"><sc-for list="{{f.opts}}" as="o"><option value="{{o.v}}">{{o.t}}</option></sc-for></select></sc-if>'
 '<sc-if value="{{f.isTa}}"><textarea placeholder="{{f.ph}}" value="{{f.v}}" onInput="{{f.on}}"></textarea></sc-if>'
-'<sc-if value="{{f.isChips}}"><div class="chs"><sc-for list="{{f.chips}}" as="c"><button class="{{c.on}}" onClick="{{c.pick}}">{{c.t}}</button></sc-for></div></sc-if>'
+'<sc-if value="{{f.isChips}}"><div class="chs {{f.cc}}"><sc-for list="{{f.chips}}" as="c"><button class="{{c.on}}" onClick="{{c.pick}}">{{c.t}}</button></sc-for></div></sc-if>'
 '<sc-if value="{{f.isNote}}"><div class="nx {{f.wr}}">{{f.v}}</div></sc-if>'
 '</div></sc-for></div><div class="er">{{fm.err}}</div>'
 '<div class="row" style="margin:10px 0 0"><button class="bt" onClick="{{fm.save}}">{{fm.saveTxt}}</button><button class="bt d" onClick="{{fm.close}}">ยกเลิก</button>'
@@ -278,7 +279,7 @@ fld(k){return e=>this.setState({form:Object.assign({},this.state.form,{[k]:e.tar
 chip(k,v){const f=this.state.form,a=f[k]||[];this.setState({form:Object.assign({},f,{[k]:a.includes(v)?a.filter(x=>x!==v):[...a,v]}),fe:''})}
 }
 // build the field list for the generic modal. spec: [{k,label,type,ph,opts,full,ta,note,chips,wr}]
-function fieldsOf(self,spec,F){return spec.map(f=>{const v=f.note!=null?f.note:(F[f.k]==null?'':F[f.k]);return{label:f.label,cls:f.full?'full':'',isIn:!f.opts&&!f.ta&&!f.chips&&f.note==null,isSel:!!f.opts,isTa:!!f.ta,isChips:!!f.chips,isNote:f.note!=null,wr:f.wr?'wr':'',type:f.type||'text',ph:f.ph||'',v:v,on:self.fld(f.k),hasQ:!!(f.quick&&f.quick.length),qs:(f.quick||[]).map(q=>{const val=Array.isArray(q)?q[0]:q,t=Array.isArray(q)?q[1]:(f.unit?q+' '+f.unit:q);return{t:t,on:String(F[f.k]==null?'':F[f.k])===String(val)?'on':'',pick:()=>self.setState({form:Object.assign({},self.state.form,{[f.k]:val}),fe:''})}}),opts:(f.opts||[]).map(o=>({v:o[0],t:o[1]})),chips:(f.chips||[]).map(o=>({t:o[1],on:(F[f.k]||[]).includes(o[0])?'on':'',pick:()=>self.chip(f.k,o[0])}))}})}
+function fieldsOf(self,spec,F){return spec.map(f=>{const v=f.note!=null?f.note:(F[f.k]==null?'':F[f.k]);return{label:f.label,cls:f.full?'full':'',isIn:!f.opts&&!f.ta&&!f.chips&&f.note==null,isSel:!!f.opts,isTa:!!f.ta,isChips:!!f.chips,isNote:f.note!=null,wr:f.wr?'wr':'',cc:f.cc||'',type:f.type||'text',ph:f.ph||'',v:v,on:self.fld(f.k),hasQ:!!(f.quick&&f.quick.length),qs:(f.quick||[]).map(q=>{const val=Array.isArray(q)?q[0]:q,t=Array.isArray(q)?q[1]:(f.unit?q+' '+f.unit:q);return{t:t,on:String(F[f.k]==null?'':F[f.k])===String(val)?'on':'',pick:()=>f.onq?f.onq(val):self.setState({form:Object.assign({},self.state.form,{[f.k]:val}),fe:''})}}),opts:(f.opts||[]).map(o=>({v:o[0],t:o[1]})),chips:(f.chips||[]).map(o=>f.one?({t:o[1],on:F[f.k]===o[0]?'on':'',pick:()=>self.setState({form:Object.assign({},self.state.form,{[f.k]:F[f.k]===o[0]?'':o[0]}),fe:''})}):({t:o[1],on:(F[f.k]||[]).includes(o[0])?'on':'',pick:()=>self.chip(f.k,o[0])}))}})}
 function modalOf(self,S,o){const open=!!S.form;return{open:open,title:o.title||'',hint:o.hint||'',hasHint:!!o.hint,fields:open?fieldsOf(self,o.spec||[],S.form):[],err:S.fe||'',saveTxt:o.saveTxt||'บันทึก',save:o.save||(()=>{}),close:()=>self.setState({form:null,fe:'',cdel:false}),stop:e=>e.stopPropagation(),hasExtra:!!o.extra,extra:o.extra?o.extra.go:(()=>{}),extraTxt:o.extra?o.extra.t:'',canDel:!!o.del,del:o.del||(()=>{}),delTxt:S.cdel?'กดอีกครั้งเพื่อยืนยันลบ':(o.delTxt||'ลบ')}}
 function openCapForm(self){const d=load();self.setState({menu:false,form:{_k:'cap',cap:capOf(d)},fe:''})}
 function openShopForm(self){const d=load();self.setState({form:{_k:'shop',name:d.shop.name,phone:d.shop.phone,goal:d.shop.goal||''},fe:''})}
