@@ -73,7 +73,7 @@ EXTRA_CSS = r""".chs.ico button{font-size:24px;width:48px;height:48px;padding:0;
 .gs{position:fixed;top:92px;right:24px;width:340px;max-width:calc(100vw - 24px);z-index:35;background:#fff;border-radius:24px;padding:20px;box-shadow:0 14px 40px rgba(43,45,58,.2);box-sizing:border-box}.ggh{display:flex;align-items:center;gap:10px}.ggh b{flex:1;font-size:17px}.ggh span{color:#6B6D7A;font-size:15px}.ggm{border:0;background:#F3F3F3;width:30px;height:30px;border-radius:50%;cursor:pointer;font:inherit;font-weight:700;color:#4A4C5A}
 .ggb{display:flex;gap:6px;margin:12px 0}.ggb i{flex:1;height:5px;border-radius:3px;background:#EDEDED}.ggb i.ok{background:#FF9AFF}.ggb i.cur{background:#2B2D3A}
 .ggi{height:96px;border-radius:16px;background:linear-gradient(135deg,#FFDFFF,#FFF3FF);display:grid;place-items:center;font-size:44px;margin:4px 0 12px}.ggd{margin:0 0 12px;color:#6B6D7A;line-height:1.55;font-size:14px}.ggr{display:flex;gap:10px}.ggr .bt{flex:1;justify-content:center;text-align:center}
-@media(max-width:820px){.gs{position:static;top:auto;bottom:auto;left:auto;right:auto;width:auto;max-width:none;margin:0 0 16px;padding:14px 16px;border-radius:20px;box-shadow:0 8px 24px rgba(43,45,58,.12)}.ggi{display:none}}
+@media(max-width:820px){.gs{position:fixed;left:50%;top:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);width:min(420px,calc(100vw - 32px));max-width:none;max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);overflow:auto;margin:0;padding:20px;border-radius:26px;z-index:70;box-shadow:0 0 0 100vmax rgba(43,34,48,.5),0 24px 60px rgba(43,45,58,.3);animation:gpop .25s ease-out}.gs.gm{top:12px;transform:translateX(-50%);padding:12px 16px;width:min(420px,calc(100vw - 24px));box-shadow:0 10px 30px rgba(43,45,58,.22);animation:none}.gs.gm .ggb{margin:8px 0 0}.ggi{display:grid}}@keyframes gpop{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}
 
 #tour-root{position:fixed;inset:0;z-index:60}.tr-b{position:absolute;inset:0}.tr-h{position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(43,45,58,.55),0 0 0 3px #FF9AFF;pointer-events:none;transition:all .25s}
 .tr-c{position:absolute;background:#fff;border-radius:18px;padding:16px;box-shadow:0 12px 36px rgba(0,0,0,.28);color:#2B2D3A;box-sizing:border-box}.tr-c small{color:#6B6D7A}.tr-c h4{margin:4px 0 6px;font-size:17px}.tr-c p{margin:0 0 12px;font-size:14px;line-height:1.55;color:#4A4C5A}
@@ -153,7 +153,7 @@ def hero(svg, title_html, sub_html, btn_html):
 
 WARN0 = '<sc-if value="{{noStore}}" hint-placeholder-val="{{false}}"><div class="wn">⚠ มุมมองนี้บันทึกข้อมูลถาวรไม่ได้ ข้อมูลที่เพิ่มจะหายเมื่อปิดหน้า ลองเปิดจากลิงก์ที่แชร์ของ artifact</div></sc-if>'
 
-GUIDE = '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><aside class="gs" role="status" aria-label="ขั้นตอนเริ่มต้นใช้งาน"><div class="ggh"><b>{{g.t}}</b><span>{{g.n}}/5</span><button class="ggm" aria-label="{{g.tglTxt}}" onClick="{{g.tgl}}">{{g.tglIco}}</button></div>' \
+GUIDE = '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><aside class="gs {{g.cls}}" role="status" aria-label="ขั้นตอนเริ่มต้นใช้งาน"><div class="ggh"><b>{{g.t}}</b><span>{{g.n}}/5</span><button class="ggm" aria-label="{{g.tglTxt}}" onClick="{{g.tgl}}">{{g.tglIco}}</button></div>' \
  '<div class="ggb"><sc-for list="{{g.dots}}" as="x"><i class="{{x.c}}"></i></sc-for></div>' \
  '<sc-if value="{{g.open}}"><div class="ggi" aria-hidden="true">{{g.ico}}</div><p class="ggd">{{g.desc}}</p>' \
  '<sc-if value="{{g.hasSubs}}"><div class="obsub"><sc-for list="{{g.subs}}" as="y"><div class="{{y.c}}"><u>{{y.m}}</u>{{y.t}}</div></sc-for></div></sc-if>' \
@@ -229,10 +229,11 @@ const goPage=(pg)=>{const a=document.createElement('a');a.href=pg+'.dc.html';doc
 const DAYN=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
 const hoursTxt=d=>{const h=d.shop.hours;if(!hrsOk(d))return 'ยังไม่ได้ตั้ง';const ds=h.days.length===7?'ทุกวัน':h.days.map(x=>DAYN[x].replace('วัน','')).join(' ');return ds+' '+h.open+'–'+h.close};
 function guideGo(self){const d=load(),n=stepNow(d);if(n>=5)return;const s=STEPS[n];let open=s.open;if(n===1&&d.services.length&&!hrsOk(d))open='hours';uiSet({open});if(PAGE===s.page&&self.boot)self.boot();else goPage(s.page)}
+const GC=s=>s.state.gc==null?(PAGE!=='Main'&&window.innerWidth<=820):s.state.gc;
 function guideVals(self){const d=load(),n=stepNow(d),on=n<5,s=STEPS[Math.min(n,4)],lk={};NAVP.forEach(p=>{lk[p]=pageAllowed(d,p)?'':'lkd'});
 const subs=n===1?[{m:d.services.length?'✓':'○',c:d.services.length?'ok':'',t:'เพิ่มบริการอย่างน้อย 1 รายการ'+(d.services.length?' ('+d.services.length+')':'')},{m:hrsOk(d)?'✓':'○',c:hrsOk(d)?'ok':'',t:'กำหนดเวลาทำการ'+(hrsOk(d)?' · '+hoursTxt(d):'')}]:[];
 const btn=n===1&&d.services.length&&!hrsOk(d)?'ตั้งเวลาทำการ':s.btn;
-return{lk,tourStart:()=>tourStart(),g:{on,open:!self.state.gc,tgl:()=>self.setState({gc:!self.state.gc}),tglIco:self.state.gc?'+':'–',tglTxt:self.state.gc?'ขยาย':'ย่อ',ico:['🏪','💅','👩‍🎨','💖','📅'][Math.min(n,4)],hasPrev:n>0,prev:()=>{uiSet({open:''});const q=STEPS[n-1].page;if(q===PAGE)window.scrollTo(0,0);else goPage(q)},n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
+return{lk,tourStart:()=>tourStart(),g:{on,open:!GC(self),cls:GC(self)?'gm':'',tgl:()=>self.setState({gc:!GC(self)}),tglIco:GC(self)?'+':'–',tglTxt:GC(self)?'ขยาย':'ย่อ',ico:['🏪','💅','👩‍🎨','💖','📅'][Math.min(n,4)],hasPrev:n>0,prev:()=>{uiSet({open:''});const q=STEPS[n-1].page;if(q===PAGE)window.scrollTo(0,0);else goPage(q)},n:n+1,t:s.t,desc:s.d,pct:Math.round(n/5*100),nextTxt:n<4?'ถัดไป: '+STEPS[n+1].t:'ขั้นตอนสุดท้าย',subs,hasSubs:subs.length>0,btn,go:()=>guideGo(self),dots:STEPS.map((x,i)=>({m:i<n?'✓':String(i+1),c:i<n?'ok':i===n?'cur':'',t:i===n?x.t:''}))}}}
 const TK='solva_tour_v1';
 const TOUR=[
 {p:'Main',s:'[data-tour=cap]',t:'ตั้งจำนวนคิวสูงสุดต่อวัน',d:'กดปุ่ม ··· ตรงนี้เพื่อเปิดเมนู แล้วตั้งว่าวันหนึ่งรับได้กี่คิว'},
