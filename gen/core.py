@@ -73,7 +73,7 @@ EXTRA_CSS = r""".chs.ico button{font-size:24px;width:48px;height:48px;padding:0;
 .gs{position:fixed;top:92px;right:24px;width:340px;max-width:calc(100vw - 24px);z-index:35;background:#fff;border-radius:24px;padding:20px;box-shadow:0 14px 40px rgba(43,45,58,.2);box-sizing:border-box}.ggh{display:flex;align-items:center;gap:10px}.ggh b{flex:1;font-size:17px}.ggh span{color:#6B6D7A;font-size:15px}.ggm{border:0;background:#F3F3F3;width:30px;height:30px;border-radius:50%;cursor:pointer;font:inherit;font-weight:700;color:#4A4C5A}
 .ggb{display:flex;gap:6px;margin:12px 0}.ggb i{flex:1;height:5px;border-radius:3px;background:#EDEDED}.ggb i.ok{background:#FF9AFF}.ggb i.cur{background:#2B2D3A}
 .ggi{height:96px;border-radius:16px;background:linear-gradient(135deg,#FFDFFF,#FFF3FF);display:grid;place-items:center;font-size:44px;margin:4px 0 12px}.ggd{margin:0 0 12px;color:#6B6D7A;line-height:1.55;font-size:14px}.ggr{display:flex;gap:10px}.ggr .bt{flex:1;justify-content:center;text-align:center}
-@media(max-width:820px){.gs{top:auto;bottom:156px;left:12px;right:12px;width:auto;max-width:none;padding:14px 16px;border-radius:20px}.ggi{display:none}}
+@media(max-width:820px){.gs{position:static;top:auto;bottom:auto;left:auto;right:auto;width:auto;max-width:none;margin:0 0 16px;padding:14px 16px;border-radius:20px;box-shadow:0 8px 24px rgba(43,45,58,.12)}.ggi{display:none}}
 
 #tour-root{position:fixed;inset:0;z-index:60}.tr-b{position:absolute;inset:0}.tr-h{position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(43,45,58,.55),0 0 0 3px #FF9AFF;pointer-events:none;transition:all .25s}
 .tr-c{position:absolute;background:#fff;border-radius:18px;padding:16px;box-shadow:0 12px 36px rgba(0,0,0,.28);color:#2B2D3A;box-sizing:border-box}.tr-c small{color:#6B6D7A}.tr-c h4{margin:4px 0 6px;font-size:17px}.tr-c p{margin:0 0 12px;font-size:14px;line-height:1.55;color:#4A4C5A}
@@ -140,6 +140,9 @@ HEART = '<svg width="84" height="84" viewBox="0 0 100 100" aria-hidden="true"><g
 HEART = HEART.replace('fl2', 'fl')
 
 def header(extra=''):
+    return _header(extra) + GUIDE
+
+def _header(extra=''):
     return ('<header class="hd"><div><div class="hi0">Welcome back</div><div class="sub">{{today}}</div></div>'
             '<div class="hr">' + extra + '<button class="av2 hlp" style="border:0;cursor:pointer;font:inherit;font-weight:700;font-size:20px" aria-label="ดูคำแนะนำการใช้งาน" title="ดูคำแนะนำการใช้งาน" onClick="{{tourStart}}">?</button><button class="av2" data-tour="shop" style="border:0;cursor:pointer" aria-label="ตั้งค่าร้าน" onClick="{{openShop}}">' + AVATAR + '</button></div></header>')
 
@@ -155,7 +158,7 @@ GUIDE = '<sc-if value="{{g.on}}" hint-placeholder-val="{{false}}"><aside class="
  '<sc-if value="{{g.open}}"><div class="ggi" aria-hidden="true">{{g.ico}}</div><p class="ggd">{{g.desc}}</p>' \
  '<sc-if value="{{g.hasSubs}}"><div class="obsub"><sc-for list="{{g.subs}}" as="y"><div class="{{y.c}}"><u>{{y.m}}</u>{{y.t}}</div></sc-for></div></sc-if>' \
  '<div class="ggr"><sc-if value="{{g.hasPrev}}"><button class="bt d" onClick="{{g.prev}}">← ก่อนหน้า</button></sc-if><button class="bt" onClick="{{g.go}}">{{g.btn}} →</button></div></sc-if></aside></sc-if>'
-WARN = WARN0 + GUIDE
+WARN = WARN0
 
 # generic modal form (fields are described by renderVals: fm = {open,title,hint,fields,err,saveTxt,save,close,stop,canDel,del,delTxt})
 MODAL = (
