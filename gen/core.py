@@ -119,7 +119,7 @@ ICONS = {
  'Main': '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"></path>',
  'Schedule': '<rect x="4" y="5" width="16" height="15" rx="3"></rect><path d="M4 10h16M9 3v4M15 3v4"></path>',
  'Clients': '<path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"></path>',
- 'Staff': '<circle cx="12" cy="8" r="3"></circle><circle cx="5" cy="10" r="2"></circle><circle cx="19" cy="10" r="2"></circle><path d="M6 20c0-4 3-6 6-6s6 2 6 6"></path>',
+ 'Staff': '<circle cx="5.5" cy="6" r="2.5"></circle><circle cx="12" cy="6" r="2.5"></circle><circle cx="18.5" cy="6" r="2.5"></circle><path d="M2 20v-1.5a4 4 0 0 1 4-4M22 20v-1.5a4 4 0 0 0-4-4M6.5 20v-2a5.5 5.5 0 0 1 11 0v2"></path>',
  'Services': '<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"></path><path d="M18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"></path>',
  'Finance': '<rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M9 16v-4M12 16V8M15 16v-6"></path>',
  'Inventory': '<path d="M4 20h16M5 20v-7h5v7M10 20V9h5v11M15 20v-5h4v5"></path>',
