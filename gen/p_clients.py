@@ -27,7 +27,7 @@ body = ('<div class="app">' + nav('Clients') + '<main class="mn">' + header() +
  '<div class="kv"><span>ส่วนลดบริการ</span><b>{{sel.discTxt}}</b></div><div style="margin:12px 0 4px">{{sel.nextTxt}}</div><div class="bar"><i style="width:{{sel.pct}}%"></i></div>'
  '<h2 style="margin:16px 0 4px">สิทธิประโยชน์</h2><sc-for list="{{sel.bens}}" as="b"><div class="ap">✦ {{b.t}}</div></sc-for>'
  '<div class="row" style="margin:12px 0 0"><sc-if value="{{sel.hasNext}}"><button class="bt" onClick="{{sel.up}}">อัปเกรดเป็น {{sel.nextName}}</button></sc-if><button class="bt d" onClick="{{sel.leave}}">{{sel.leaveTxt}}</button></div></sc-if>'
- '<sc-if value="{{sel.isNon}}"><div class="em"><span class="mb np">Non-member</span><p>ยังไม่ได้เป็นสมาชิก สมัครเพื่อสะสมแต้มและรับส่วนลดตามระดับ</p><button class="bt" onClick="{{sel.join}}">สมัครสมาชิก Pearl</button></div></sc-if></div></sc-if>'
+ '<sc-if value="{{sel.isNon}}"><div class="em"><span class="mb np">Non-member</span><p>ยังไม่ได้เป็นสมาชิก สมัครเพื่อสะสมแต้มและรับส่วนลดตามระดับ</p><button class="bt" onClick="{{sel.join}}">สมัครสมาชิก Platinum</button></div></sc-if></div></sc-if>'
  '<sc-if value="{{t2}}"><div class="tp"><sc-if value="{{sel.hasNotes}}"><div class="row"><sc-for list="{{sel.notes}}" as="n"><span class="ch nt">{{n.t}}<button aria-label="ลบโน้ต" onClick="{{n.rm}}">×</button></span></sc-for></div></sc-if>'
  '<sc-if value="{{sel.noNotes}}">' + EMPTYMINI('ยังไม่มีโน้ต เพิ่มสีที่ชอบหรือข้อควรระวังด้านล่าง') + '</sc-if>'
  '<div class="ni"><input placeholder="เพิ่มโน้ตใหม่ เช่น สีที่ชอบ" aria-label="โน้ตใหม่" value="{{nin}}" onInput="{{onNin}}"><button class="bt" onClick="{{addNote}}">บันทึก</button></div></div></sc-if>'

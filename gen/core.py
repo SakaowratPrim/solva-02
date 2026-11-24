@@ -177,11 +177,12 @@ MODAL = (
 CORE_JS = r"""
 const SK='solva_data_v1',UK='solva_ui_v1';
 const TH_M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'],TH_F=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'],TH_D=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'],TH_S=['อา','จ','อ','พ','พฤ','ศ','ส'];
-const TIER0=[{n:'Pearl',min:0,disc:0},{n:'Gold',min:10000,disc:5},{n:'Platinum',min:30000,disc:10},{n:'Diamond',min:60000,disc:15}],TCL={Pearl:'pe',Gold:'go',Platinum:'pl',Diamond:'di'},PAYM=['เงินสด','โอนเงิน / PromptPay','บัตรเครดิต/เดบิต'];
+const TIER0=[{n:'Platinum',min:0,disc:0},{n:'Gold',min:10000,disc:5},{n:'Diamond',min:60000,disc:15}],TCL={Gold:'go',Platinum:'pl',Diamond:'di'},PAYM=['เงินสด','โอนเงิน / PromptPay','บัตรเครดิต/เดบิต'];
 const EMPTY=()=>({v:1,seq:1,shop:{name:'',phone:'',goal:0,hours:null,setup:false},tiers:TIER0.map(t=>Object.assign({},t)),customers:[],staff:[],services:[],appts:[],att:[],tx:[],products:[],stock:[]});
 let MEM=null,OKS=true;
 try{localStorage.setItem('solva_probe','1');localStorage.removeItem('solva_probe')}catch(e){OKS=false}
-function load(){if(OKS){try{const r=localStorage.getItem(SK);MEM=r?Object.assign(EMPTY(),JSON.parse(r)):EMPTY();return MEM}catch(e){OKS=false}}if(!MEM)MEM=EMPTY();return MEM}
+function migTiers(x){if(x&&x.tiers&&x.tiers.some(t=>t.n==='Pearl')){const mp={Pearl:'Platinum',Platinum:'Gold'};x.tiers=TIER0.map(t=>Object.assign({},t));(x.customers||[]).forEach(c=>{if(c.tier&&mp[c.tier])c.tier=mp[c.tier]})}return x}
+function load(){if(OKS){try{const r=localStorage.getItem(SK);MEM=r?migTiers(Object.assign(EMPTY(),JSON.parse(r))):EMPTY();return MEM}catch(e){OKS=false}}if(!MEM)MEM=EMPTY();return MEM}
 function save(d){MEM=d;if(OKS){try{localStorage.setItem(SK,JSON.stringify(d))}catch(e){OKS=false}}try{if(window.BroadcastChannel){const b=new BroadcastChannel('solva');b.postMessage(1);b.close()}}catch(e){}}
 const M=fn=>{const d=load(),r=fn(d);save(d);window.__lw=Date.now();return r};
 function uiGet(){try{return JSON.parse(localStorage.getItem(UK)||'{}')}catch(e){return {}}}
