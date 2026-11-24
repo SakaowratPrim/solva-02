@@ -309,8 +309,8 @@ if(k==='cust')mo={title:F.id?'แก้ไขข้อมูลลูกค้�
 if(!name)return set({fe:'กรุณากรอกชื่อลูกค้า'});const dup=phone&&d.customers.find(z=>z.phone===phone&&z.id!==F.id);if(dup)return set({fe:'เบอร์นี้มีในระบบแล้ว (ลูกค้า: '+dup.name+')'});
 let nid=F.id;M(x=>{if(F.id){const z=getC(x,F.id);z.name=name;z.nick=(F.nick||'').trim();z.phone=phone;z.bd=F.bd||'';z.line=(F.line||'').trim();if(F.tier&&!z.tier)z.since=T;if(!F.tier)z.since='';z.tier=F.tier||''}else{nid=x.seq++;x.customers.push({id:nid,name,nick:(F.nick||'').trim(),phone,bd:F.bd||'',line:(F.line||'').trim(),tier:F.tier||'',since:F.tier?T:'',created:T,notes:[]})}});
 set({form:null,fe:'',sel:nid,tab:0,f:'all',q:''});toast(F.id?'บันทึกการแก้ไขแล้ว':'เพิ่มลูกค้าแล้ว')}};
-if(k==='tiers'){const sp=[];d.tiers.forEach((t,i)=>{if(i>0)sp.push({k:'min'+i,label:t.n+' · ยอดสะสมขั้นต่ำ (บาท)',type:'number'});sp.push({k:'disc'+i,label:t.n+' · ส่วนลดบริการ (%)',type:'number'})});
-mo={title:'ตั้งค่าระดับสมาชิก',hint:'กำหนดตามนโยบายของร้าน ส่วนลดใช้กับนัดหมายที่สร้างหลังจากนี้',spec:sp,save:()=>{const t=d.tiers.map((z,i)=>({n:z.n,min:i?+F['min'+i]:0,disc:+F['disc'+i]||0}));
+if(k==='tiers'){const sp=[];d.tiers.forEach((t,i)=>{sp.push({k:'min'+i,label:t.n+' · ยอดสะสมขั้นต่ำ (บาท)',type:'number'});sp.push({k:'disc'+i,label:t.n+' · ส่วนลดบริการ (%)',type:'number'})});
+mo={title:'ตั้งค่าระดับสมาชิก',hint:'กำหนดตามนโยบายของร้าน ส่วนลดใช้กับนัดหมายที่สร้างหลังจากนี้',spec:sp,save:()=>{const t=d.tiers.map((z,i)=>({n:z.n,min:F['min'+i]===''||F['min'+i]==null?NaN:+F['min'+i],disc:+F['disc'+i]||0}));
 for(let i=0;i<t.length;i++){if(isNaN(t[i].min)||t[i].min<0||t[i].disc<0||t[i].disc>100)return set({fe:'กรุณากรอกตัวเลขให้ถูกต้อง (ส่วนลด 0–100%)'});if(i&&t[i].min<=t[i-1].min)return set({fe:'ยอดสะสมของระดับสูงต้องมากกว่าระดับก่อนหน้า'})}
 M(x=>{x.tiers=t});set({form:null,fe:''});toast('บันทึกระดับสมาชิกแล้ว')}}}
 const n=d.customers.length,nm=n-nNon;
