@@ -20,6 +20,10 @@ body = ('<div class="app">' + nav('Services') + '<main class="mn">' + header() +
 js = r"""
 const SV_CATS=['เล็บมือ','เล็บเท้า','ต่อเล็บ','ทำสปา','ตกแต่งเล็บ','ถอด/ซ่อม'],SV_NAMES=['ทาสีเจล','ล้างเจล','ต่อเล็บ','เพ้นท์ลาย','ทำสปามือ','ทำสปาเท้า'];
 const svSpec=(cats)=>[{k:'name',label:'ชื่อบริการ (เลือกด้านล่างหรือพิมพ์เองก็ได้)',full:1,ph:'เช่น ทาสีเจล',quick:SV_NAMES},{k:'cat',label:'หมวดหมู่ (ไม่บังคับ)',full:1,ph:'เลือกด้านล่างหรือพิมพ์หมวดของร้านเอง',quick:[...new Set(cats.concat(SV_CATS))]},{k:'price',label:'ราคา (บาท)',type:'number',ph:'0',quick:[200,300,500,800,1000]},{k:'dur',label:'เวลาที่ใช้ (นาที)',type:'number',ph:'ไม่บังคับ',unit:'นาที',quick:[30,45,60,90,120]}];
+const SV_CAT_OF={'ทาสีเจล':'เล็บมือ','ล้างเจล':'ถอด/ซ่อม','ต่อเล็บ':'ต่อเล็บ','เพ้นท์ลาย':'ตกแต่งเล็บ','ทำสปามือ':'ทำสปา','ทำสปาเท้า':'ทำสปา','ทาสีเล็บเท้า':'เล็บเท้า','ถอดเล็บต่อ':'ถอด/ซ่อม'};
+const svNames=F=>{const ex=String(F.extra||'').split(/[,，\n]/).map(x=>x.trim()).filter(Boolean);return[...new Set([...(F.picks||[]),...ex])]};
+const svMulti=F=>{const sp=[{k:'picks',label:'เลือกบริการที่ร้านมี (แตะได้หลายรายการ)',full:1,chips:Object.keys(SV_CAT_OF).map(n=>[n,n])},{k:'extra',label:'บริการอื่นๆ ที่ไม่มีในรายการ (พิมพ์ได้หลายอย่าง คั่นด้วยเครื่องหมาย , )',full:1,ph:'เช่น ทาสีแม่เหล็ก, ต่อเล็บอะคริลิค'}];
+svNames(F).forEach(n=>{sp.push({k:'p:'+n,label:'ราคา '+n+' (บาท)',type:'number',ph:'0'});sp.push({k:'d:'+n,label:'เวลา '+n+' (นาที)',type:'number',ph:'ไม่บังคับ'})});return sp};
 const mkHours=d=>{const h=d.shop.hours||{open:'09:00',close:'18:00',days:[0,1,2,3,4,5,6]};return{_k:'hours',open:h.open,close:h.close,days:[...h.days]}};
 const HR_SPEC=[{k:'open',label:'เวลาเปิดร้าน',type:'time',quick:['08:00','09:00','10:00']},{k:'close',label:'เวลาปิดร้าน',type:'time',quick:['17:00','18:00','20:00','21:00']},{k:'days',label:'วันทำการ (แตะเพื่อเลือกหรือยกเลิก)',full:1,chips:[[1,'จันทร์'],[2,'อังคาร'],[3,'พุธ'],[4,'พฤหัส'],[5,'ศุกร์'],[6,'เสาร์'],[0,'อาทิตย์']]}];
 class Component extends Base{
@@ -33,8 +37,12 @@ const rows=list.map(s=>({name:s.name,cat:s.cat||'—',price:fm(s.price),dur:s.du
 const F=S.form,k=F&&F._k;let mo={};
 if(k==='shop')mo=shopMo(this,F,S);
 if(k==='hours')mo={title:'เวลาทำการของร้าน',hint:'ใช้กำหนดช่วงเวลาที่รับนัดหมายได้ และเป็นเวลาเริ่มต้นของพนักงานใหม่',spec:HR_SPEC,saveTxt:'บันทึกเวลาทำการ',save:()=>{if(!F.open||!F.close)return set({fe:'กรุณาเลือกเวลาเปิดและเวลาปิด'});if(F.open>=F.close)return set({fe:'เวลาปิดต้องอยู่หลังเวลาเปิด'});if(!(F.days||[]).length)return set({fe:'เลือกวันทำการอย่างน้อย 1 วัน'});M(x=>{x.shop.hours={open:F.open,close:F.close,days:[...F.days].sort((a,b)=>a-b)}});set({form:null,fe:''});this.toast('บันทึกเวลาทำการแล้ว')}};
-if(k==='sv')mo={title:F.id?'แก้ไขบริการ':'เพิ่มบริการ',hint:F.id?'การแก้ราคาไม่กระทบนัดหมายเดิมที่บันทึกไว้แล้ว':'',spec:svSpec(cats),saveTxt:F.id?'บันทึกการแก้ไข':'เพิ่มบริการ',
-save:()=>{const name=(F.name||'').trim(),price=F.price===''||F.price==null?NaN:+F.price,dur=+F.dur||0;
+if(k==='sv')mo={title:F.id?'แก้ไขบริการ':'เพิ่มบริการ',hint:F.id?'การแก้ราคาไม่กระทบนัดหมายเดิมที่บันทึกไว้แล้ว':'เลือกได้หลายรายการในครั้งเดียว แล้วกรอกราคาของแต่ละรายการ กดบันทึกครั้งเดียวเสร็จ',spec:F.id?svSpec(cats):svMulti(F),saveTxt:F.id?'บันทึกการแก้ไข':(svNames(F).length>1?'เพิ่ม '+svNames(F).length+' บริการ':'เพิ่มบริการ'),
+save:()=>{if(!F.id){const ns=svNames(F);if(!ns.length)return set({fe:'กรุณาเลือกหรือพิมพ์ชื่อบริการอย่างน้อย 1 รายการ'});
+for(const n of ns){const p=F['p:'+n];if(p===''||p==null||isNaN(+p)||+p<0)return set({fe:'กรุณากรอกราคาของ “'+n+'” (ตัวเลข 0 ขึ้นไป)'});if(d.services.some(s=>s.name===n))return set({fe:'มีบริการชื่อ “'+n+'” อยู่แล้ว'})}
+M(x=>{ns.forEach(n=>x.services.push({id:x.seq++,name:n,cat:SV_CAT_OF[n]||'',price:+F['p:'+n],dur:+F['d:'+n]||0}))});
+const nd=load();set({form:(stepNow(nd)===1&&!hrsOk(nd))?mkHours(nd):null,fe:''});return this.toast('เพิ่มบริการ '+ns.length+' รายการแล้ว')}
+const name=(F.name||'').trim(),price=F.price===''||F.price==null?NaN:+F.price,dur=+F.dur||0;
 if(!name)return set({fe:'กรุณากรอกชื่อบริการ'});if(isNaN(price)||price<0)return set({fe:'กรุณากรอกราคา (ตัวเลข 0 ขึ้นไป)'});
 if(d.services.some(s=>s.name===name&&s.id!==F.id))return set({fe:'มีบริการชื่อนี้อยู่แล้ว'});
 M(x=>{if(F.id){const s=x.services.find(z=>z.id===F.id);s.name=name;s.cat=(F.cat||'').trim();s.price=price;s.dur=dur}else x.services.push({id:x.seq++,name,cat:(F.cat||'').trim(),price,dur})});
