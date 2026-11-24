@@ -116,7 +116,7 @@ table.tb2{width:100%;border-collapse:collapse}.tb2 button.lk{border:0;background
 
 # ---------- navigation (7 items) ----------
 ICONS = {
- 'Main': '<svg x="3" y="0.5" width="18" height="23" viewBox="170 10 512 780" stroke="none"><defs><linearGradient id="nlg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9AFF"></stop><stop offset="1" stop-color="#FF66F5"></stop></linearGradient></defs><polygon points="180,288 418,170 462,252 222,372" fill="#8A8290"></polygon><rect x="422" y="38" width="226" height="238" rx="58" fill="#2D2F3E" transform="rotate(-26 535 157)"></rect><rect x="248" y="330" width="352" height="448" rx="105" fill="url(#nlg)"></rect><rect x="288" y="386" width="48" height="304" rx="24" fill="#FFCCFB"></rect></svg>',
+ 'Main': '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"></path>',
  'Schedule': '<rect x="4" y="5" width="16" height="15" rx="3"></rect><path d="M4 10h16M9 3v4M15 3v4"></path>',
  'Clients': '<path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"></path>',
  'Staff': '<svg x="0" y="5" width="24" height="13.44" viewBox="0 0 125 70" fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="27.5" cy="14.5" r="12"></circle><circle cx="62.5" cy="14.5" r="12"></circle><circle cx="97.5" cy="14.5" r="12"></circle><path d="M4 66A25 29 0 0 1 47 46M121 66A25 29 0 0 0 78 46M37 66A25.5 29 0 0 1 88 66M4 66H121"></path></svg>',
