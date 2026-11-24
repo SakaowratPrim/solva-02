@@ -7,7 +7,7 @@ USR = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3A3C
 body = ('<div class="app">' + nav('Schedule') + '<main class="mn">' + header() +
  hero(hero_svg('Schedule.dc.html'),
       '{{heroWho}} <b class="cn" style="--v:{{nDay}}"></b> นัดหมาย', '{{heroSub}}',
-      '<button class="bt" onClick="{{heroGo}}">{{heroBtn}}</button>') + WARN +
+      '') + WARN +
  '<sc-if value="{{noAny}}" hint-placeholder-val="{{false}}"><div class="empty">' + HEART +
  '<h2>ยังไม่มีนัดหมาย</h2><p>สร้างนัดหมายแรกเพื่อจองคิวให้ลูกค้า ระบบจะคำนวณราคา ส่วนลดสมาชิก และออกบิลให้อัตโนมัติ</p>'
  '<sc-if value="{{hasMiss}}"><div style="text-align:left;max-width:420px;margin:0 auto 16px"><b style="color:#2B2D3A">ต้องตั้งค่าก่อนสร้างนัดหมาย</b><sc-for list="{{miss}}" as="m"><a class="ck" href="{{m.h}}"><i>!</i><span>{{m.t}}</span></a></sc-for></div></sc-if>'
@@ -16,7 +16,7 @@ body = ('<div class="app">' + nav('Schedule') + '<main class="mn">' + header() +
  '<div class="row"><div class="stp"><button aria-label="วันก่อนหน้า" onClick="{{prev}}">‹</button><b>{{dateShort}}</b><button aria-label="วันถัดไป" onClick="{{next}}">›</button></div><button class="bt o" onClick="{{goToday}}">วันนี้</button>'
  '<select class="sel2" value="{{fs}}" onChange="{{onFs}}" aria-label="กรองพนักงาน"><sc-for list="{{fsOpts}}" as="o"><option value="{{o.v}}">{{o.t}}</option></sc-for></select>'
  '<select class="sel2" value="{{fst}}" onChange="{{onFst}}" aria-label="กรองสถานะ"><sc-for list="{{fstOpts}}" as="o"><option value="{{o.v}}">{{o.t}}</option></sc-for></select>'
- '<button class="bt" data-tour="appt" style="margin-left:auto" onClick="{{add}}">+ สร้างนัดหมาย</button><button class="bt d" onClick="{{png}}">บันทึกบิลเป็น PNG</button>'+CAPMENU+'</div>'
+ '<button class="bt d" style="margin-left:auto" onClick="{{png}}">บันทึกบิลเป็น PNG</button>'+CAPMENU+'</div>'
  '<sc-if value="{{hasConf}}"><div class="wn">⚠ {{confTxt}}</div></sc-if>'
  '<sc-if value="{{hasUt}}"><div class="c rs" style="margin-bottom:22px;--i:2"><h2>การใช้เวลาของช่างวันนี้</h2><sc-for list="{{ut}}" as="u"><div class="ut"><span>{{u.n}}</span><div class="bar"><i style="width:{{u.w}}%"></i></div><b>{{u.p}}</b></div></sc-for>'
  '<div class="mut" style="font-size:13px">คิดจากเวลาของบริการที่ใช้ เทียบกับเวลาทำงานของช่างแต่ละคน</div></div></sc-if>'
@@ -40,7 +40,7 @@ body = ('<div class="app">' + nav('Schedule') + '<main class="mn">' + header() +
  '<div class="row" style="margin:16px 0 0"><sc-for list="{{sel.acts}}" as="b"><button class="bt {{b.cls}}" onClick="{{b.go}}">{{b.t}}</button></sc-for>'
  '<sc-if value="{{sel.hasBill}}"><button class="bt o" disabled="{{busy}}" onClick="{{png}}">{{sel.pngTxt}}</button></sc-if><a class="bt o" href="Clients.dc.html">ดูโปรไฟล์ลูกค้า</a></div>'
  '<sc-if value="{{sel.noBill}}"><p class="mut" style="margin:10px 0 0">นัดนี้ไม่มีบิลให้บันทึก ({{sel.ps}})</p></sc-if></div></div></div></sc-if></sc-if>'
- + '<button class="fab" aria-label="สร้างนัดหมาย" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
+ + '<button class="fab" data-tour="appt" aria-label="สร้างนัดหมาย" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
 
 css_extra = ('.mb{height:auto;gap:0}.wk button{border:0;background:none;font:inherit;padding:10px 8px;border-radius:30px;min-width:46px;cursor:pointer;text-align:center;color:inherit}.wk button.sl{background:#D9D9D9;padding:14px 8px 18px}.wk button.p b{background:#FFDFFF}.wk button em{display:block;font-style:normal;font-size:10px;font-weight:600}.wk button em:empty{display:none}.wk button.fu b{background:#FF9AFF;color:#2B2D3A}.wk button.fu em{color:#4A4C5A}'
              '.sr button.nb{font-size:15px}.sr small{display:block}'

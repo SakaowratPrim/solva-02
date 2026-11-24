@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from core import *
 
-FAB = '<button class="fab" aria-label="บันทึกสต็อกเข้า–ออก" onClick="{{mv}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>'
+FAB = '<button class="fab" data-tour="stock" aria-label="{{fabLbl}}" onClick="{{mv}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>'
 
 body = ('<div class="app">' + nav('Inventory') + '<main class="mn">' + header() +
- hero(hero_svg('Inventory.dc.html'), '{{heroT}} <b class="cn" style="--v:{{nLow}}"></b> รายการ', '{{heroSub}}', '<button class="bt" data-tour="stock" onClick="{{heroGo}}">{{heroBtn}}</button>') + WARN +
+ hero(hero_svg('Inventory.dc.html'), '{{heroT}} <b class="cn" style="--v:{{nLow}}"></b> รายการ', '{{heroSub}}', '') + WARN +
  '<h1>สต็อกสินค้า</h1><sc-if value="{{hasLow}}"><div class="wn">⚠ Low Stock: ใกล้หมด {{nWarn}} รายการ · หมด {{nOut}} รายการ ควรสั่งซื้อเพิ่ม</div></sc-if>'
  '<div class="g"><div class="c lf rs" style="--i:4"><div class="kl">ปกติ</div><div class="k"><b class="cn" style="--v:{{nOk}}"></b></div></div><div class="c lf rs" style="--i:5"><div class="kl">ใกล้หมด</div><div class="k"><b class="cn" style="--v:{{nWarn}}"></b></div></div><div class="c lf rs" style="--i:6"><div class="kl">หมด</div><div class="k"><b class="cn" style="--v:{{nOut}}"></b></div></div></div>'
  '<sc-if value="{{noAny}}" hint-placeholder-val="{{false}}"><div class="empty">' + HEART +
@@ -45,7 +45,7 @@ M(x=>{const z=x.products.find(w=>w.id===+F.pid),dl=F.type==='in'?q:-q;z.qty+=dl;
 const n=P.length,nLow=nWarn+nOut;
 return{today:thL(T),noStore:!OKS,openShop:()=>openShopForm(this),
 heroT:n?'ต้องสั่งเพิ่ม':'สต็อกสินค้า',nLow,heroSub:n?(nLow?'ใกล้หมด '+nWarn+' · หมด '+nOut+' ควรสั่งซื้อก่อนของขาด':'สินค้าทุกรายการยังเพียงพอ'):'ยังไม่มีข้อมูลสินค้า เริ่มจากเพิ่มสินค้าชิ้นแรก',heroBtn:n?(nLow?(S.low?'ดูทั้งหมด':'ดูรายการที่ต้องสั่ง'):'+ เพิ่มสินค้า'):'เพิ่มสินค้า',heroGo:()=>{if(n&&nLow)set({low:!S.low,cat:'all'});else set({form:mkProd(),fe:''})},
-add:()=>set({form:mkProd(),fe:'',cdel:false}),mv:()=>set({form:mkMv(),fe:'',cdel:false}),
+add:()=>set({form:mkProd(),fe:'',cdel:false}),mv:()=>set({form:n?mkMv():mkProd(),fe:'',cdel:false}),fabLbl:n?'บันทึกสต็อกเข้า–ออก':'เพิ่มสินค้า',
 nOk,nWarn,nOut,hasLow:nLow>0,cat:S.cat,onCat:e=>set({cat:e.target.value}),catOpts:[{v:'all',t:'ทุกหมวดหมู่'}].concat(cats.map(c=>({v:c,t:c}))),
 rows,hasAny:n>0,noAny:n===0,noRows:n>0&&rows.length===0,hist,noHist:hist.length===0,fm:modalOf(this,S,mo),toast:S.to,toastText:S.to}}}
 """
