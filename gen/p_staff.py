@@ -12,13 +12,10 @@ body = ('<div class="app">' + nav('Staff') + '<main class="mn">' + header() +
  '<h2>ยังไม่มีพนักงาน</h2><p>เพิ่มพนักงานเพื่อรับนัดหมาย บันทึกเวลาเข้างาน และคำนวณค่าคอมมิชชันและทิปจากงานที่ทำจริง</p></div></sc-if>'
  '<sc-if value="{{hasAny}}" hint-placeholder-val="{{true}}"><div id="list" class="row"><input class="si" placeholder="ค้นหาชื่อพนักงาน" aria-label="ค้นหาพนักงาน" value="{{q}}" onInput="{{onQ}}">'
  '<div class="sg"><sc-for list="{{fil}}" as="f" hint-placeholder-count="4"><button class="{{f.on}}" onClick="{{f.pick}}">{{f.name}}</button></sc-for></div></div>'
- '<div class="lay"><div class="l1"><div class="sg2"><sc-for list="{{rows}}" as="s" hint-placeholder-count="3"><div class="c lf pf sc2 {{s.on}}"><div class="pa"><div>' + PERSON + '</div></div>'
+ '<div class="l1"><div class="sg2"><sc-for list="{{rows}}" as="s" hint-placeholder-count="3"><div class="c lf pf sc2 {{s.on}}"><div class="pa"><div>' + PERSON + '</div></div>'
  '<button class="ch nb" style="padding:6px 30px" onClick="{{s.pick}}">{{s.name}}</button><div class="sp">{{s.ski}}</div><span class="ch {{s.sb}}">{{s.sl}}</span><div class="ap" style="margin-top:12px">{{s.role}} · {{s.hrs}} ชม./เดือน</div></div></sc-for></div>'
  '<sc-if value="{{noRows}}" hint-placeholder-val="{{false}}">' + EMPTYMINI('ไม่มีพนักงานในสถานะนี้ตอนนี้<br><button class="bt o" style="margin-top:12px" onClick="{{clear}}">ดูทั้งหมด</button>') + '</sc-if></div>'
- '<div class="c l2"><sc-if value="{{noSel}}" hint-placeholder-val="{{false}}">' + EMPTYMINI('เลือกพนักงานเพื่อดูโปรไฟล์') + '</sc-if>'
- '<sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}"><div class="row" style="margin:0"><div class="av2" style="width:64px;height:64px;background:#FFDFFF"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2B2D3A" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5"></path></svg></div>'
- '<div><h2 style="margin:0">{{sel.name}}</h2><div style="color:#6B6D7A">{{sel.role}} · อายุงาน {{sel.ten}}</div><span class="ch {{sel.sb}}">{{sel.sl}}</span></div></div>'
- '<div class="tl" style="grid-template-columns:repeat(3,1fr);margin-top:14px"><sc-for list="{{sel.sum}}" as="x"><div><small>{{x.k}}</small><b style="font-size:17px">{{x.v}}</b></div></sc-for></div>'
+ '<sc-if value="{{hasSel}}" hint-placeholder-val="{{false}}"><div class="ov" onClick="{{closeSel}}"><div class="md sm" onClick="{{stopP}}"><button class="sdx" aria-label="ปิด" onClick="{{closeSel}}">✕</button><h2 class="skh">ข้อมูลพนักงาน</h2><div class="row" style="margin:0"><div class="av2" style="width:64px;height:64px;background:#FFDFFF"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2B2D3A" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5"></path></svg></div><div><h1 style="margin:0;font-size:26px">{{sel.name}}</h1><div style="color:#6B6D7A">{{sel.role}} · อายุงาน {{sel.ten}}</div><span class="ch {{sel.sb}}">{{sel.sl}}</span></div></div><h2 class="skh">ภาพรวมการทำงาน</h2><div class="skbig"><div><small>ชั่วโมงทำงานรวม (Total Working Hours)</small><b>{{sel.totH}}</b></div><div><small>จำนวนคิวที่ให้บริการทั้งหมด (Total Appointments Served)</small><b>{{sel.served}}</b></div></div><div class="tl" style="grid-template-columns:repeat(3,1fr);margin-top:10px"><sc-for list="{{sel.sum}}" as="x"><div><small>{{x.k}}</small><b style="font-size:17px">{{x.v}}</b></div></sc-for></div><h2 class="skh">เช็คอินวันนี้</h2><div class="skci"><button class="bt {{sel.ciCls}}" disabled="{{sel.ciDis}}" onClick="{{sel.cin}}">{{sel.ciBtn}}</button><div><b>{{sel.ciSt}}</b><div class="mut">{{sel.ciTime}}</div></div></div><h2 class="skh">รายละเอียดและการจัดการ</h2>'
  '<div class="tabs"><sc-for list="{{tabs}}" as="t" hint-placeholder-count="6"><button class="{{t.on}}" onClick="{{t.pick}}">{{t.name}}</button></sc-for></div>'
  # 0 basic
  '<sc-if value="{{t0}}"><div class="tp"><sc-for list="{{sel.kv}}" as="x"><div class="kv"><span>{{x.k}}</span><b>{{x.v}}</b></div></sc-for>'
@@ -50,7 +47,7 @@ body = ('<div class="app">' + nav('Staff') + '<main class="mn">' + header() +
  # 5 history
  '<sc-if value="{{t5}}"><div class="tp"><sc-for list="{{sel.wh}}" as="h"><div class="hi2"><button onClick="{{h.toggle}}"><span><b>{{h.date}}</b> · {{h.cust}} · {{h.svc}}</span><span><span class="ch {{h.sc}}">{{h.st}}</span> {{h.ar}}</span></button><sc-if value="{{h.isOpen}}"><div class="dd">{{h.dur}} · {{h.price}} · ค่าคอม {{h.cm}}</div></sc-if></div></sc-for>'
  '<sc-if value="{{sel.noWh}}">' + EMPTYMINI('ยังไม่มีประวัติงาน') + '</sc-if></div></sc-if>'
- '</sc-if></div></div></sc-if>' + '<button class="fab" data-tour="staff" aria-label="เพิ่มพนักงาน" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
+ '</div></div></sc-if></sc-if>' + '<button class="fab" data-tour="staff" aria-label="เพิ่มพนักงาน" onClick="{{add}}"><svg width="32" height="32" viewBox="0 0 32 32" stroke="#FF9AFF" stroke-width="3" stroke-linecap="round"><path d="M16 5v22M5 16h22"></path></svg></button>' + MODAL + '</main></div>')
 
 js = png_js() + r"""
 const TB=['ข้อมูลพื้นฐาน','ชั่วโมงทำงาน','ความถนัด','การเข้างาน','ค่าคอมฯ & ทิป','ประวัติงาน'],FL=[['all','ทั้งหมด'],['ontime','ตรงเวลา'],['late','มาสาย'],['leave','ลา']];
@@ -80,7 +77,7 @@ const tC=sum(L,x=>x.cm),tT=sum(L,x=>x.tip),pdn=sum(L.filter(x=>x.p),x=>x.cm+x.ti
 const af=recs.filter(r=>S.af==='all'||attSt(s,r)===S.af),cnt=z=>recs.filter(r=>attSt(s,r)===z).length;
 const skills=s.skills||[];
 sel={name:s.name,role:s.role||'ช่างเล็บ',sb:a?ATL[a][1]:'nt',sl:a?ATL[a][0]:'ยังไม่เช็คอิน',ten:ten(s.start),
-sum:[{k:'ชั่วโมง ('+mShort(k)+')',v:h1(totH)},{k:'ค่าคอมมิชชัน',v:hasRate?fm(tC):'ยังไม่ตั้งค่า'},{k:'ทิป',v:fm(tT)}],
+totH:h1(sum(recs.filter(r=>r.type==='work'&&r.out),hrsOf)),served:mine.filter(x=>x.status==='done').length+' คิว',ciBtn:(()=>{const r=attOf(d,s.id,T);return!r?'เช็คอินเข้างาน':r.type==='work'?'Checked-in ✓':r.type==='leave'?'ลาวันนี้':'ขาดวันนี้'})(),ciCls:attOf(d,s.id,T)?'d':'',ciDis:!!attOf(d,s.id,T),ciSt:(()=>{const r=attOf(d,s.id,T);return!r?'ยังไม่เช็คอิน':r.type==='work'?'เช็คอินแล้ว'+(r.out?' · เช็คเอาท์ '+r.out+' น.':''):r.type==='leave'?'บันทึกว่าลาวันนี้':'บันทึกว่าขาดงานวันนี้'})(),ciTime:(()=>{const r=attOf(d,s.id,T);return r&&r.in?'เวลาเข้างาน '+r.in+' น.':'เวลาเริ่มงานตามตาราง '+(s.ws||'09:00')+' น.'})(),sum:[{k:'ชั่วโมง ('+mShort(k)+')',v:h1(totH)},{k:'ค่าคอมมิชชัน',v:hasRate?fm(tC):'ยังไม่ตั้งค่า'},{k:'ทิป',v:fm(tT)}],
 kv:[{k:'ชื่อ-นามสกุล',v:s.full||'—'},{k:'ตำแหน่ง',v:s.role||'—'},{k:'เบอร์ติดต่อ',v:s.phone||'—'},{k:'วันที่เริ่มงาน',v:thD(s.start)},{k:'อายุงาน (คำนวณอัตโนมัติ)',v:ten(s.start)},{k:'อัตราค่าคอมมิชชัน',v:hasRate?s.rate+'%':'ยังไม่ได้ตั้งค่า'}],
 edit:()=>set({form:{_k:'staff',id:s.id,name:s.name,full:s.full||'',role:s.role||'',phone:s.phone||'',start:s.start||'',rate:hasRate?s.rate:'',ws:s.ws||'09:00',we:s.we||'18:00'},fe:''}),
 delTxt:S.cdel?'กดอีกครั้งเพื่อยืนยันลบ':'ลบพนักงาน',del:()=>{if(mine.length)return toast('ลบไม่ได้ เพราะพนักงานมีนัดหมายอยู่ในระบบ');if(!S.cdel)return set({cdel:true});M(x=>{x.staff=x.staff.filter(z=>z.id!==s.id);x.att=x.att.filter(z=>z.staff!==s.id)});set({sel:null,cdel:false});toast('ลบพนักงานแล้ว')},
@@ -106,11 +103,11 @@ if(fk==='staff')mo={title:F.id?'แก้ไขข้อมูลพนักง
 save:()=>{const name=(F.name||'').trim();if(!name)return set({fe:'กรุณากรอกชื่อพนักงาน'});const rate=F.rate===''||F.rate==null?null:+F.rate;if(rate!==null&&(isNaN(rate)||rate<0||rate>100))return set({fe:'ค่าคอมมิชชันต้องอยู่ระหว่าง 0–100%'});
 if(d.staff.some(z=>z.name===name&&z.id!==F.id))return set({fe:'มีพนักงานชื่อนี้อยู่แล้ว ลองเพิ่มคำต่อท้ายให้ต่างกัน'});
 let nid=F.id;M(x=>{const v={name,full:(F.full||'').trim(),role:(F.role||'').trim(),phone:(F.phone||'').trim(),start:F.start||'',rate,ws:F.ws||'09:00',we:F.we||'18:00'};if(F.id)Object.assign(getS(x,F.id),v);else{nid=x.seq++;x.staff.push(Object.assign({id:nid,skills:[],created:T},v))}});
-set({form:null,fe:'',sel:nid,tab:0,f:'all',q:''});toast(F.id?'บันทึกการแก้ไขแล้ว':'เพิ่มพนักงานแล้ว')}};
+set({form:null,fe:'',sel:F.id?nid:null,tab:0,f:'all',q:''});toast(F.id?'บันทึกการแก้ไขแล้ว':'เพิ่มพนักงานแล้ว')}};
 const n=d.staff.length,po=d.staff.filter(z=>today(z)==='ontime').length,pl=d.staff.filter(z=>today(z)==='late').length,nc=d.staff.filter(z=>!attOf(d,z.id,T)).length;
 return{today:thL(T),noStore:!OKS,openShop:()=>openShopForm(this),nAll:n,
 heroSub:n?(po+pl+d.staff.filter(z=>['leave','absent'].includes(today(z))).length?'ตรงเวลา '+po+' · มาสาย '+pl+(nc?' · ยังไม่เช็คอิน '+nc:''):'วันนี้ยังไม่มีการบันทึกเวลาเข้างาน'):'เริ่มต้นด้วยการเพิ่มพนักงานคนแรกของร้าน',heroBtn:n?'+ เพิ่มพนักงาน':'เพิ่มพนักงานคนแรก',
-add:()=>set({form:mkStaff(),fe:''}),q:S.q,onQ:e=>set({q:e.target.value}),clear:()=>set({f:'all',q:''}),rows,fil,tabs,sel,hasAny:n>0,noAny:n===0,noRows:n>0&&rows.length===0,hasSel:!!s,noSel:!s,
+add:()=>set({form:mkStaff(),fe:''}),q:S.q,onQ:e=>set({q:e.target.value}),clear:()=>set({f:'all',q:''}),rows,fil,tabs,sel,hasAny:n>0,noAny:n===0,noRows:n>0&&rows.length===0,hasSel:!!s&&!S.form,noSel:!s,closeSel:()=>set({sel:null,cdel:false,op:null}),stopP:e=>e.stopPropagation(),
 t0:S.tab===0,t1:S.tab===1,t2:S.tab===2,t3:S.tab===3,t4:S.tab===4,t5:S.tab===5,moTxt:mTxt(k),prev:()=>set({mo:S.mo-1,op:null}),next:()=>{if(S.mo<0)set({mo:S.mo+1,op:null})},
 skIn:S.skIn,onSk:e=>set({skIn:e.target.value}),svNames:d.services.map(z=>({v:z.name})),
 addSk:()=>{const v=S.skIn.trim();if(!v||!s)return;if((s.skills||[]).some(z=>z.n===v))return toast('มีทักษะนี้แล้ว');M(y=>{const z=getS(y,s.id);z.skills=(z.skills||[]).concat({n:v,main:true})});set({skIn:''});toast('เพิ่มทักษะแล้ว')},
@@ -118,6 +115,6 @@ rateIn:S.rateIn,onRate:e=>set({rateIn:e.target.value}),saveRate:()=>{const v=S.r
 busy:!!S.busy,fm:modalOf(this,S,mo),toast:S.to,toastText:S.to}}}
 """
 
-html = page('Solva – พนักงาน', helmet_css('Staff.dc.html') + '.mb{height:auto;gap:0}', body, js)
+html = page('Solva – พนักงาน', helmet_css('Staff.dc.html') + '.mb{height:auto;gap:0}' + '.md.sm{width:min(640px,100%);position:relative}.sdx{position:absolute;top:14px;right:14px;z-index:2;min-height:36px;width:36px;padding:0;border-radius:50%;background:#F1F1F1;box-shadow:none;font-size:15px}.skh{font-size:18px;margin:20px 0 10px}.md.sm .skh:first-of-type{margin-top:0}.skbig{display:grid;grid-template-columns:1fr 1fr;gap:12px}.skbig>div{background:#FFDFFF;border-radius:20px;padding:14px 16px}.skbig small{display:block;color:#4A4C5A;font-size:12px;font-weight:600}.skbig b{display:block;font-size:30px;margin-top:4px}.skci{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.skci .bt{min-height:52px;padding:0 32px;font-size:17px}@media(max-width:560px){.skbig{grid-template-columns:1fr}}', body, js)
 html = html.replace('class="hi"', 'class="hi2"')
 write('Staff.dc.html', html)
