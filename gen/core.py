@@ -119,7 +119,7 @@ ICONS = {
  'Main': '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"></path>',
  'Schedule': '<rect x="4" y="5" width="16" height="15" rx="3"></rect><path d="M4 10h16M9 3v4M15 3v4"></path>',
  'Clients': '<path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"></path>',
- 'Staff': '<circle cx="5.5" cy="6" r="2.5"></circle><circle cx="12" cy="6" r="2.5"></circle><circle cx="18.5" cy="6" r="2.5"></circle><path d="M2 20v-1.5a4 4 0 0 1 4-4M22 20v-1.5a4 4 0 0 0-4-4M6.5 20v-2a5.5 5.5 0 0 1 11 0v2"></path>',
+ 'Staff': '<svg x="0" y="5" width="24" height="13.44" viewBox="0 0 125 70" fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="27.5" cy="14.5" r="12"></circle><circle cx="62.5" cy="14.5" r="12"></circle><circle cx="97.5" cy="14.5" r="12"></circle><path d="M4 66A25 29 0 0 1 47 46M121 66A25 29 0 0 0 78 46M37 66A25.5 29 0 0 1 88 66M4 66H121"></path></svg>',
  'Services': '<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"></path><path d="M18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"></path>',
  'Finance': '<rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M9 16v-4M12 16V8M15 16v-6"></path>',
  'Inventory': '<path d="M4 20h16M5 20v-7h5v7M10 20V9h5v11M15 20v-5h4v5"></path>',
