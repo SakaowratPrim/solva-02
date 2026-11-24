@@ -6,7 +6,7 @@ EMPTYMINI = lambda msg: '<div class="em">' + HEART + '<div>' + msg + '</div></di
 body = ('<div class="app">' + nav('Clients') + '<main class="mn">' + header() +
  hero(hero_svg('Clients.dc.html'),
       'ลูกค้าทั้งหมด <b class="cn" style="--v:{{nAll}}"></b> คน', '{{heroSub}}',
-      '<button class="bt" onClick="{{heroGo}}">{{heroBtn}}</button>') + WARN +
+      '') + WARN +
  '<h2>ระดับสมาชิก · แตะการ์ดเพื่อกรองรายชื่อ</h2><div class="row trw" style="gap:20px;margin-bottom:26px">'
  '<sc-for list="{{cards}}" as="t" hint-placeholder-count="5"><button class="tc {{t.cls}} {{t.on}}" onClick="{{t.pick}}"><div class="ti"></div><div class="tn">{{t.name}}</div><div class="ts">{{t.sub}}</div><em><b class="cn" style="--v:{{t.n}}"></b> คน</em></button></sc-for></div>'
  '<sc-if value="{{noAny}}" hint-placeholder-val="{{false}}"><div class="empty">' + HEART +
